@@ -34,17 +34,30 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    awesome_print (1.2.0)
     builder (3.2.2)
+    coderay (1.1.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     hike (1.2.3)
     i18n (0.6.11)
+    interception (0.5)
     json (1.8.1)
     mail (2.6.1)
       mime-types (>= 1.16, < 3)
+    method_source (0.8.2)
     mime-types (2.4.3)
     minitest (5.4.2)
     multi_json (1.10.1)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-rails (0.3.2)
+      pry (>= 0.9.10)
+    pry-rescue (1.4.1)
+      interception (>= 0.5)
+      pry
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -80,6 +93,7 @@ GEM
       rspec-mocks (~> 3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.2)
+    slop (3.6.0)
     sprockets (2.12.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -100,6 +114,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   notifly!
+  pry-rails
+  pry-rescue
   rspec-rails (~> 3.1.0)
   sqlite3

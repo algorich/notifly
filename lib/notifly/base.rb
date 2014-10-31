@@ -1,12 +1,20 @@
+require 'notifly/model_options/options'
+
 module Notifly
   module Base
-    extend ActiveSupport::Concern
-
     module ClassMethods
       def notifly(options = {})
+        @@notifly_model_options ||= NotiflyModelOptions.new
+        @@notifly_model_options.assign(options)
+        
+        define_method :notifly do 
+          @@notifly_model_options
+        end
       end
     end
+
+    def self.included(base)
+       base.extend ClassMethods
+     end
   end
 end
-
-ActiveRecord::Base.send :include, Notifly::Base
