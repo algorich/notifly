@@ -24,7 +24,7 @@ class NotiflyModelOptions
     klass.class_eval do
       define_callbacks call_back_name
       set_callback call_back_name, fly.hook, if: fly.if, unless: fly.unless do
-        # create notification
+        notifly.create_notification_for(object: self, fly: fly)
       end
 
       old_foo = instance_method(fly.method)
@@ -35,5 +35,9 @@ class NotiflyModelOptions
         end
       end
     end
+  end
+
+  def create_notification_for(object: nil, fly: nil)
+    puts 'Creating notification'
   end
 end

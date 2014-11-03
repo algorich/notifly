@@ -1,5 +1,4 @@
 require 'notifly/model_options/options'
-require 'notifly/injector'
 
 module Notifly
   module Base
