@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141103170528) do
+ActiveRecord::Schema.define(version: 20141103191353) do
 
   create_table "dummy_objects", force: true do |t|
     t.string   "name"
@@ -35,5 +35,12 @@ ActiveRecord::Schema.define(version: 20141103170528) do
   add_index "notifly_notifications", ["receiver_id", "receiver_type"], name: "index_notifly_notifications_on_receiver_id_and_receiver_type"
   add_index "notifly_notifications", ["sender_id", "sender_type"], name: "index_notifly_notifications_on_sender_id_and_sender_type"
   add_index "notifly_notifications", ["target_id", "target_type"], name: "index_notifly_notifications_on_target_id_and_target_type"
+
+  create_table "posts", force: true do |t|
+    t.string  "author"
+    t.string  "title"
+    t.text    "content"
+    t.boolean "published", default: false
+  end
 
 end
