@@ -11,12 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141031165049) do
+ActiveRecord::Schema.define(version: 20141103170528) do
 
   create_table "dummy_objects", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "notifly_notifications", force: true do |t|
+    t.string   "template"
+    t.boolean  "read"
+    t.integer  "target_id"
+    t.string   "target_type"
+    t.integer  "sender_id"
+    t.string   "sender_type"
+    t.integer  "receiver_id"
+    t.string   "receiver_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "notifly_notifications", ["receiver_id", "receiver_type"], name: "index_notifly_notifications_on_receiver_id_and_receiver_type"
+  add_index "notifly_notifications", ["sender_id", "sender_type"], name: "index_notifly_notifications_on_sender_id_and_sender_type"
+  add_index "notifly_notifications", ["target_id", "target_type"], name: "index_notifly_notifications_on_target_id_and_target_type"
 
 end
