@@ -2,6 +2,7 @@ require 'rails_helper'
 
 module Notifly
   RSpec.describe Notification, :type => :model do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it { is_expected.to validate_presence_of(:receiver) }
+    it { is_expected.to validate_presence_of(:template) }
   end
 end
