@@ -1,12 +1,8 @@
 class Post < ActiveRecord::Base
   belongs_to :dummy_object
 
-  # after_create do
-  #   Notifly::Notify.create receiver: self, template: :default if published?
-  # end
-
-  def published?
-    self.published
+  after_update do
+    Notifly::Notification.create receiver: self.dummy_object, template: :default if published?
   end
 end
 

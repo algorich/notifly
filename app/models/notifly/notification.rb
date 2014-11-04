@@ -1,8 +1,8 @@
 module Notifly
   class Notification < ActiveRecord::Base
-    belongs_to :target
-    belongs_to :sender
-    belongs_to :receiver
+    belongs_to :target, polymorphic: true
+    belongs_to :sender, polymorphic: true
+    belongs_to :receiver, polymorphic: true
 
     validates :receiver, :template, presence: true
   end
