@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141103191353) do
+ActiveRecord::Schema.define(version: 20141104121318) do
 
   create_table "dummy_objects", force: true do |t|
     t.string   "name"
@@ -40,7 +40,10 @@ ActiveRecord::Schema.define(version: 20141103191353) do
     t.string  "author"
     t.string  "title"
     t.text    "content"
-    t.boolean "published", default: false
+    t.boolean "published",       default: false
+    t.integer "dummy_object_id"
   end
+
+  add_index "posts", ["dummy_object_id"], name: "index_posts_on_dummy_object_id"
 
 end
