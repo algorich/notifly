@@ -14,7 +14,19 @@ RSpec.describe Post, :type => :model do
 
       expect { publish }.to change(Notifly::Notification, :count).from(0).to(1)
       expect(notification.receiver).to eql dummy
+      expect(notification.target).to eql post
       expect(notification.template).to eql 'default'
+    end
+
+    describe 'Notification fallback (data)' do
+      it 'should use Notifly::Notification#data for missing informations' do
+        post_attributes = post.attributes
+        expect { post.destroy }.to change(Notifly::Notification, :count).from(0).to(1)
+
+        expect(notification.receiver).to eql dummy
+        expect(notification.template).to eql 'destroy'
+        expect(notification.reload.data).to eql post_attributes
+      end
     end
   end
 end

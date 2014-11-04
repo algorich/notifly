@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141104121318) do
+ActiveRecord::Schema.define(version: 20141104150224) do
 
   create_table "dummy_objects", force: true do |t|
     t.string   "name"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20141104121318) do
     t.string   "receiver_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "data"
   end
 
   add_index "notifly_notifications", ["receiver_id", "receiver_type"], name: "index_notifly_notifications_on_receiver_id_and_receiver_type"
