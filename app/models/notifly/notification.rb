@@ -4,9 +4,11 @@ module Notifly
     belongs_to :sender, polymorphic: true
     belongs_to :receiver, polymorphic: true
 
-    validates :receiver, :template, presence: true
-
     before_validation :convert_data
+
+    scope :all_from, ->(receiver) { where(receiver: receiver) }
+
+    validates :receiver, :template, presence: true
 
     def data
       YAML.load(read_attribute(:data))

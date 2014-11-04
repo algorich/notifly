@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'rspec-rails', '~> 3.1.0'
-  s.add_development_dependency 'shoulda-matchers', '~> 2.7.0'
   s.add_development_dependency 'capybara', '~> 2.4.4'
   s.add_development_dependency 'poltergeist', '~> 1.5.1'
+  s.add_development_dependency 'shoulda-matchers', '~> 2.7.0'
 end
