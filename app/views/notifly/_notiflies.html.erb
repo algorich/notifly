@@ -1,5 +1,6 @@
 <div id="notifly">
-  <div id="notifly-counter">
-    <%= counter %>
+  <div id="notifly-counter" data-path="<%= notifly.notifications_count_path %>",
+    data-receiver-id="<%= receiver.id %>" data-receiver-type="<%= receiver.class %>">
+
   </div>
 </div>

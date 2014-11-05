@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 describe 'Notifly counter', :type => :feature do
-  let(:user) { DummyObject.create! }
-
-  scenario "Loading notification's counter" do
-    Notifly::Notification.create! receiver: user, template: :default
-    Notifly::Notification.create! receiver: user, template: :default
+  scenario "Loading notification's counter", js: true do
+    receiver = DummyObject.create! name: 'User'
+    Notifly::Notification.create! receiver: receiver, template: :default
+    Notifly::Notification.create! receiver: receiver, template: :default
     Notifly::Notification.create! receiver: DummyObject.create!, template: :default
     Notifly::Notification.create! receiver: DummyObject.create!, template: :default
 

@@ -1,3 +1,6 @@
+require 'jquery-rails'
+require 'jquery-ui-rails'
+
 module Notifly
   class Engine < ::Rails::Engine
     isolate_namespace Notifly

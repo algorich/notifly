@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20141104150224) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "dummy_objects", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -33,9 +36,9 @@ ActiveRecord::Schema.define(version: 20141104150224) do
     t.text     "data"
   end
 
-  add_index "notifly_notifications", ["receiver_id", "receiver_type"], name: "index_notifly_notifications_on_receiver_id_and_receiver_type"
-  add_index "notifly_notifications", ["sender_id", "sender_type"], name: "index_notifly_notifications_on_sender_id_and_sender_type"
-  add_index "notifly_notifications", ["target_id", "target_type"], name: "index_notifly_notifications_on_target_id_and_target_type"
+  add_index "notifly_notifications", ["receiver_id", "receiver_type"], name: "index_notifly_notifications_on_receiver_id_and_receiver_type", using: :btree
+  add_index "notifly_notifications", ["sender_id", "sender_type"], name: "index_notifly_notifications_on_sender_id_and_sender_type", using: :btree
+  add_index "notifly_notifications", ["target_id", "target_type"], name: "index_notifly_notifications_on_target_id_and_target_type", using: :btree
 
   create_table "posts", force: true do |t|
     t.string  "author"
@@ -45,6 +48,6 @@ ActiveRecord::Schema.define(version: 20141104150224) do
     t.integer "dummy_object_id"
   end
 
-  add_index "posts", ["dummy_object_id"], name: "index_posts_on_dummy_object_id"
+  add_index "posts", ["dummy_object_id"], name: "index_posts_on_dummy_object_id", using: :btree
 
 end
