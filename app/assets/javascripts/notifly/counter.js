@@ -1,8 +1,9 @@
 
 var _getCounter = function () {
   var $counter = $('#notifly-counter');
-  var id   = $counter.data('receiver-id');
-  var type = $counter.data('receiver-type');
+  var $notifly = $('#notifly');
+  var id   = $notifly.data('receiver-id');
+  var type = $notifly.data('receiver-type');
 
   $.ajax({
     url: $counter.data('path'),
