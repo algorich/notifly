@@ -1,3 +1,7 @@
 Notifly::Engine.routes.draw do
-  get 'notifications/count'
+  resources :notifications do
+    collection do
+      get :count
+    end
+  end
 end
