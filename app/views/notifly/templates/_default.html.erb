@@ -1,3 +1,5 @@
+<!-- This partial requires the locals: notification -->
+
 <p>
-  You receive a new notification at <%= notification.created_at %>
+  <%= notification.receiver.name %>, you receive a new notification at <%= notification.created_at %>
 </p>

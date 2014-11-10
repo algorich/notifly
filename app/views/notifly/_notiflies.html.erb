@@ -1,11 +1,21 @@
+<!-- This partial requires the locals: receiver -->
+
 <div id="notifly" data-receiver-id="<%= receiver.id %>" data-receiver-type="<%= receiver.class %>"
   data-path="<%= notifly.notifications_path %>">
 
-  Notifly
+  Notifly_icon
 
   <div id="notifly-counter" data-path="<%= notifly.count_notifications_path %>">
   </div>
 
-  <div id="notifly-notifications">
+  <div class="notifly-dropdown">
+    <div id="notifly-notifications">
+      <div class="loading">
+        Loading notifications...
+      </div>
+    </div>
+
+    <div id="notifly-notifications-footer">
+    </div>
   </div>
 </div>
