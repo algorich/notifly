@@ -3,17 +3,12 @@ require_dependency "notifly/application_controller"
 module Notifly
   class NotificationsController < ApplicationController
     def count
-      @counter = Notifly::Notification.unread_from(current_receiver).count
+      @counter = Notifly::Notification.unread_from(current_user).count
     end
 
     def index
-      @notifications = Notifly::Notification.all_from(current_receiver).
+      @notifications = Notifly::Notification.all_from(current_user).
         order('created_at DESC').page params[:page]
     end
-
-    private
-      def current_receiver
-        @current_receiver = params[:receiver_type].constantize.find(params[:receiver_id])
-      end
   end
 end

@@ -1,4 +1,4 @@
 module Notifly
-  class ApplicationController < ActionController::Base
+  class ApplicationController < ::ApplicationController
   end
 end

@@ -22,17 +22,16 @@ describe 'Notifly notifications', :type => :feature do
   end
 
   scenario 'Loading next page', js: true do
-    params = { page: 2, receiver_id: @receiver.id, receiver_type: @receiver.class }
-    href_with_params = notifly.notifications_path(params)
+    href_with_page = notifly.notifications_path(page: 2)
     find('#notifly').hover
     within('#notifly-notifications-footer') do
-      expect(page).to have_link('more', href: href_with_params)
+      expect(page).to have_link('more', href: href_with_page)
     end
 
     click_link 'more'
 
     within('#notifly-notifications-footer') do
-      expect(page).to_not have_link('more', href: href_with_params)
+      expect(page).to_not have_link('more', href: href_with_page)
     end
   end
 end

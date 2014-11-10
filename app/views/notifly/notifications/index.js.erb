@@ -1,8 +1,6 @@
 <% rendered_index = render partial: 'notifly/notifications/index',
   locals: { notifications: @notifications } %>
-
-<% rendered_next_page = link_to_next_page @notifications, 'more', remote: true,
-  params: { receiver_id: @current_receiver.id, receiver_type: @current_receiver.class } %>
+<% rendered_next_page = link_to_next_page @notifications, 'more', remote: true %>
 
 $('#notifly-notifications .loading').remove();
 $('#notifly-notifications').append("<%= escape_javascript rendered_index %>");
