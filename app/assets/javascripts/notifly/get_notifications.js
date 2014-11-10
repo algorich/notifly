@@ -11,10 +11,15 @@ var _getNotifications = function () {
       $.ajax({
         url: $notifly.data('path'),
         data: { receiver_id: id, receiver_type: type },
-        type: 'GET'
+        type: 'GET',
+        error: _handleError
       });
     }
   });
+};
+
+var _handleError = function (data) {
+  requested = false;
 };
 
 $(document).ready(function() {
