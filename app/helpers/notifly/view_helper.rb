@@ -5,7 +5,7 @@ module Notifly
     end
 
     def notiflies_for(receiver)
-      render partial: 'notifly/notiflies', locals: { receiver: receiver }
+      render partial: 'notifly/layouts/notifly', locals: { receiver: receiver }
     end
   end
 end

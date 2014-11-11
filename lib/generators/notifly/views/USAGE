@@ -1,0 +1,8 @@
+Description:
+    This generator will create Notifly views in your application
+
+Example:
+    rails generate notifly:views:templates
+
+    This will create:
+        app/views/notifly/templates/default.html.erb
