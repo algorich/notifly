@@ -11,7 +11,7 @@ First we need to add our gem to `Gemfile` and run `bundle`
 ```ruby
   # Gemfile
 
-  gem 'notifly', github: 'algorich/notifly'
+  gem 'notifly', github: 'algorich/notifly', branch: 'dev'
 ```
 
 After that we need to configure our gem
@@ -21,6 +21,12 @@ After that we need to configure our gem
 ```
 
 You can choose to change the namespace for our routes, but the default is `notifly`
+
+We need storage the notifications and to do it do not forget to run the migrations
+
+```shell
+  $ rake db:migrate
+```
 
 Now you need our assets, add it to your `application.js`
 
