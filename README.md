@@ -11,7 +11,7 @@ First we need to add our gem to `Gemfile` and run `bundle`
 ```ruby
   # Gemfile
 
-  gem 'notifly', git: 'git://github.com:algorich/notifly.git'
+  gem 'notifly', github: 'algorich/notifly'
 ```
 
 After that we need to configure our gem
