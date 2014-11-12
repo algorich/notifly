@@ -4,11 +4,11 @@ Notifly
 This project intend to offers a full notification system. Right now our
 notification is composed by:
 
-  - Receiver (*required*): the object that will receive the notification
+  - Receiver (**required**): the object that will receive the notification
   - Sender: who sent the notification
   - Target: object that you will refer
-  - Data: hash here you can store more info about the notification
-  - Template (*required*): template html that the notification will use
+  - Data: hash where you can store more info about the notification
+  - Template (**required**): template html that the notification will use
   - Read: attribute that shows if the receiver read the notification
 
 
