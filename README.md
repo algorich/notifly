@@ -4,11 +4,11 @@ Notifly
 This project intend to offers a full notification system. Right now our
 notification is composed by:
 
-  - Receiver (*required*): the object that will receive the notification
+  - Receiver (**required**): the object that will receive the notification
   - Sender: who sent the notification
   - Target: object that you will refer
-  - Data: hash here you can store more info about the notification
-  - Template (*required*): template html that the notification will use
+  - Data: hash where you can store more info about the notification
+  - Template (**required**): template html that the notification will use
   - Read: attribute that shows if the receiver read the notification
 
 
@@ -49,8 +49,8 @@ You need to have a `current_user` in `ApplicationController`, if you use
 Usage
 ---
 
-You will need at least an user object to be the receiver, and to create notifications
-to it use the code below
+You will need at least an user object to be the receiver, and to create 
+its notifications use the code below
 
 ```ruby
   Notifly::Notification.create receiver: your_user, template: :default
