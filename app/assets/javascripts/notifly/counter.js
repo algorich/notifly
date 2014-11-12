@@ -1,4 +1,3 @@
-
 var _getCounter = function () {
   var $counter = $('#notifly-counter');
   var $notifly = $('#notifly');

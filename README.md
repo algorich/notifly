@@ -1,7 +1,16 @@
 Notifly
 ---
 
-This project rocks and uses MIT-LICENSE.
+This project intend to offers a full notification system. Right now our
+notification is composed by:
+
+  - Receiver (*required*): the object that will receive the notification
+  - Sender: who sent the notification
+  - Target: object that you will refer
+  - Data: hash here you can store more info about the notification
+  - Template (*required*): template html that the notification will use
+  - Read: attribute that shows if the receiver read the notification
+
 
 Install
 ---
@@ -34,16 +43,21 @@ Now you need our assets, add it to your `application.js`
 //= require notifly
 ```
 
+You need to have a `current_user` in `ApplicationController`, if you use
+[Devise](https://github.com/plataformatec/devise) it is already there.
+
 Usage
 ---
 
-You will need at least an user object, after that just add this code where you want
+You will need at least an user object to be the receiver, and to create notifications
+to it use the code below
 
 ```ruby
-  Notifly::Notification receiver: user
+  Notifly::Notification.create receiver: your_user, template: :default
 ```
 
-If you want to change the default template ou create new ones
+We use a default template but if you want to change it or create new ones run the
+code below or create them in `app/views/notifly/templates`
 
 ```shell
   $ rails generate notifly:views
