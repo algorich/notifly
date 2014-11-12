@@ -49,12 +49,15 @@ You need to have a `current_user` in `ApplicationController`, if you use
 Usage
 ---
 
-You will need at least an user object to be the receiver, and to create notifications
-to it use the code below
+You will need at least an user object to be the receiver. We have to ways to create
+notifications.
 
 ```ruby
-  Notifly::Notification.create receiver: your_user, template: :default
+  receiver_object.notifly!
 ```
+
+Remember that you can pass all Notifications attributes (`target`, `sender`, `data`
+and `template`) to this method.
 
 We use a default template but if you want to change it or create new ones run the
 code below or create them in `app/views/notifly/templates`

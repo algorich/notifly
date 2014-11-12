@@ -3,7 +3,6 @@ require 'rails_helper'
 module Notifly
   RSpec.describe Notification, :type => :model do
     it { is_expected.to validate_presence_of(:receiver) }
-    it { is_expected.to validate_presence_of(:template) }
 
     describe '#data' do
       it 'should save and repond with a hash' do

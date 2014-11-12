@@ -6,7 +6,7 @@ module Notifly
     belongs_to :sender, polymorphic: true
     belongs_to :receiver, polymorphic: true
 
-    before_validation :convert_data
+    before_validation :convert_data, :set_template
 
     scope :all_from,    ->(receiver) { where(receiver: receiver) }
     scope :unread_from, ->(receiver) { where(receiver: receiver, read: false) }
@@ -20,6 +20,10 @@ module Notifly
     private
       def convert_data
         self.data = read_attribute(:data).to_json
+      end
+
+      def set_template
+        self.template ||= :default
       end
   end
 end
