@@ -1,4 +1,5 @@
 require_relative 'notifiable'
+require_relative 'flyable'
 
 module Notifly
   module Models
@@ -6,6 +7,7 @@ module Notifly
       extend ActiveSupport::Concern
 
       include Notifly::Models::Notifiable
+      include Notifly::Models::Flyable
     end
   end
 end
