@@ -40,10 +40,14 @@ We need storage the notifications and to do it do not forget to run the migratio
   $ rake db:migrate
 ```
 
-Now you need our assets, add it to your `application.js`
+Now you need our assets, add them to your `application.js` and `application.css`
 
 ```javascript
 //= require notifly
+```
+
+```css
+*= require notifly
 ```
 
 You need to have a `current_user` in `ApplicationController`, if you use
