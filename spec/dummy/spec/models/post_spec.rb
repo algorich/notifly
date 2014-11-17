@@ -19,7 +19,7 @@ RSpec.describe Post, :type => :model do
         expect { post.publish! }.to change(Notifly::Notification, :count).from(0).to(1)
         expect(notification.receiver).to eql dummy
         expect(notification.target).to eql post
-        expect(notification.template).to eql 'default'
+        expect(notification.template).to eql 'publish'
       end
 
       describe 'Notification fallback (data)' do

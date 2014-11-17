@@ -17,26 +17,26 @@ module Notifly
           if options[:default_values]
             @default_fly = fly
           else
-            create_callback_for_class_method_from fly if respond_to? fly.method_name
+          _create_callback_for_class_method_from fly if respond_to? fly.method_name
             @flies << fly
           end
         end
 
         def method_added(method_name)
-          create_callbacks_for method_name
+          _create_callbacks_for method_name
           super
         end
 
         private
-          def create_callbacks_for(method_name)
-            method_flies = flies_for method_name
+          def _create_callbacks_for(method_name)
+            method_flies = _flies_for method_name
 
             method_flies.each do |fly|
-              create_callback_for_instance_method_from(fly)
+              _create_callback_for_instance_method_from(fly)
             end
           end
 
-          def flies_for(method_name)
+          def _flies_for(method_name)
             if flies.present?
               flies.select { |fly| fly.method_name == method_name }
             else
@@ -44,24 +44,24 @@ module Notifly
             end
           end
 
-          def create_callback_for_class_method_from(fly)
+          def _create_callback_for_class_method_from(fly)
             callback_name = "#{fly.hook}_#{fly.method_name}"
             flyable_callbacks << "#{callback_name}_#{fly.object_id}"
 
             send(callback_name, if: fly.if, unless: fly.unless) do |record|
-              create_notification_for(fly)
+              _create_notification_for(fly)
             end
           end
 
-          def create_callback_for_instance_method_from(fly)
-            notifly_callback_name = format_callback_name_for(fly)
+          def _create_callback_for_instance_method_from(fly)
+            notifly_callback_name = _format_callback_name_for(fly)
 
             if not flyable_callbacks.include? notifly_callback_name
               flyable_callbacks << notifly_callback_name
 
               define_callbacks notifly_callback_name
               set_callback notifly_callback_name, fly.hook, if: fly.if, unless: fly.unless do |record|
-                create_notification_for(fly)
+                _create_notification_for(fly)
               end
 
               old_method = instance_method(fly.method_name)
@@ -74,7 +74,7 @@ module Notifly
             end
           end
 
-          def format_callback_name_for(fly)
+          def _format_callback_name_for(fly)
             ending_chars = {
               '!' => :_dangerous,
               '?' => :_question
@@ -86,27 +86,27 @@ module Notifly
           end
       end
 
-      def create_notification_for(fly)
-        new_fly = default_fly.merge(fly)
-        Notifly::Notification.create! get_attributes_from(new_fly)
+      def _create_notification_for(fly)
+        new_fly = _default_fly.merge(fly)
+        Notifly::Notification.create! _get_attributes_from(new_fly)
       end
 
       private
-        def default_fly
+        def _default_fly
           self.class.default_fly || Notifly::Models::Options::Fly.new
         end
 
-        def get_attributes_from(fly)
+        def _get_attributes_from(fly)
           evaluated_attributes = {}
 
           fly.attributes.each do |key, value|
-            evaluated_attributes[key] = eval_for(key, value)
+            evaluated_attributes[key] = _eval_for(key, value)
           end
 
           evaluated_attributes
         end
 
-        def eval_for(key, value)
+        def _eval_for(key, value)
           if key.to_sym == :template
             value
           elsif value == :self
