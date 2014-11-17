@@ -92,6 +92,7 @@ class TicketOrder < ActiveRecord::Base
     end
   end
 end
+```
 
 We use a default template but if you want to change it or create new ones run the
 code below or create them in `app/views/notifly/templates`
