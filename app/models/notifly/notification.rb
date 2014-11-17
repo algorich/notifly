@@ -7,7 +7,7 @@ module Notifly
     before_validation :convert_data, :set_template
 
     scope :all_from,    ->(receiver) { where(receiver: receiver) }
-    scope :unread_from, ->(receiver) { where(receiver: receiver, read: false) }
+    scope :unseen_from, ->(receiver) { where(receiver: receiver, seen: false) }
 
     validates :receiver, :template, presence: true
 

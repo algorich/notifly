@@ -9,7 +9,12 @@ describe 'Read notification', :type => :feature, js: true do
     Notifly.per_page = 2
 
     visit root_path
+    sleep(1)
     find('#notifly').hover
+  end
+
+  after(:each) do
+    Notifly.per_page = 10
   end
 
   scenario 'specific notification' do

@@ -3,11 +3,12 @@ require_dependency "notifly/application_controller"
 module Notifly
   class NotificationsController < ApplicationController
     def count
-      @counter = Notifly::Notification.unread_from(current_user).count
+      @counter = Notifly::Notification.unseen_from(current_user).count
     end
 
     def index
       @notifications = current_user_notifications.page(params[:page]).per(Notifly.per_page)
+      @notifications.update_all(seen: true)
     end
 
     def read_specific

@@ -8,10 +8,14 @@ RSpec.describe Notifly::NotificationsController, :type => :controller do
       receiver = DummyObject.create
       other_receiver = DummyObject.create
 
-      Notifly::Notification.create! receiver: receiver, template: :default, read: false
-      Notifly::Notification.create! receiver: receiver, template: :default, read: false
-      Notifly::Notification.create! receiver: receiver, template: :default, read: false
-      Notifly::Notification.create! receiver: receiver, template: :default, read: true
+      Notifly::Notification.create! receiver: receiver, template: :default,
+        seen: false, read: true
+      Notifly::Notification.create! receiver: receiver, template: :default,
+        seen: false, read: true
+      Notifly::Notification.create! receiver: receiver, template: :default,
+        seen: false, read: true
+      Notifly::Notification.create! receiver: receiver, template: :default,
+        seen: true, read: true
 
       2.times { Notifly::Notification.create! receiver: other_receiver, template: :default }
 
