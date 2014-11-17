@@ -47,14 +47,16 @@ Now you need our assets, add them to your `application.js` and `application.css`
 ```
 
 ```css
+/*
 *= require notifly
+*/
 ```
-
-You need to have a `current_user` in `ApplicationController`, if you use
-[Devise](https://github.com/plataformatec/devise) it is already there.
 
 Usage
 ---
+
+You need to have a `current_user` in `ApplicationController`, if you use
+[Devise](https://github.com/plataformatec/devise) it is already there.
 
 We have two ways to create notifications, with both you will need at least an user
 object to be the receiver. You can define notifications creation with `notifly`
