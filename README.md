@@ -10,6 +10,7 @@ notification is composed by:
   - Data: hash where you can store more info about the notification
   - Template (**required**): template html that the notification will use
   - Read: attribute that shows if the receiver read the notification
+  - If and Unless: used to create notifications conditionally
 
 
 Install
@@ -49,15 +50,48 @@ You need to have a `current_user` in `ApplicationController`, if you use
 Usage
 ---
 
-You will need at least an user object to be the receiver. We have to ways to create
-notifications.
+We have two ways to create notifications, with both you will need at least an user
+object to be the receiver. You can define notifications creation with `notifly`
 
 ```ruby
-  receiver_object.notifly!
+class TicketOrder < ActiveRecord::Base
+  belongs_to :ticket
+  belongs_to :buyer
+  belongs_to :owner
+
+  notifly default_values: { receiver: :owner }
+
+  notifly before: :destroy, template: :destroy, sender: :buyer, data: :attributes
+  notifly after: :send_gift!, template: :ticket_gift, sender: :buyer, target: :ticket,
+    if: -> { completed? }
+
+  def send_gift!
+    # code here
+  end
+end
 ```
 
-Remember that you can pass all Notifications attributes (`target`, `sender`, `data`
-and `template`) to this method.
+with this way you can use the `default_values` to DRY your notiflies. If you want
+you can create notifications with
+
+```ruby
+class TicketOrder < ActiveRecord::Base
+  belongs_to :ticket
+  belongs_to :buyer
+  belongs_to :owner
+
+  before_destroy do
+    owner.notifly! template: :destroy, sender: :buyer, data: :attributes
+  end
+
+  def send_gift!
+    # code here
+
+    if completed?
+      owner.notifly! template: :ticket_gift, sender: :buyer, target: :ticket
+    end
+  end
+end
 
 We use a default template but if you want to change it or create new ones run the
 code below or create them in `app/views/notifly/templates`
