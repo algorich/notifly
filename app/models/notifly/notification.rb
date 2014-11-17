@@ -1,7 +1,5 @@
 module Notifly
   class Notification < ActiveRecord::Base
-    paginates_per 10
-
     belongs_to :target, polymorphic: true
     belongs_to :sender, polymorphic: true
     belongs_to :receiver, polymorphic: true

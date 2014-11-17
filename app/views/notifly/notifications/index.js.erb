@@ -1,7 +1,15 @@
-<% rendered_index = render partial: 'notifly/layouts/index',
-  locals: { notifications: @notifications } %>
-<% rendered_next_page = link_to_next_page @notifications, 'more', remote: true %>
+<%
+  rendered_index = render partial: 'notifly/layouts/index',
+    locals: { notifications: @notifications }
+  rendered_next_page = link_to_next_page @notifications, 'more', remote: true
+
+  notifications_pages = { pages: @notifications.current_page }
+  rendered_mark_as_read = link_to 'Mark as read', read_specific_notifications_path(notifications_pages),
+    remote: true, method: :post
+%>
 
 $('#notifly-notifications .loading').remove();
 $('#notifly-notifications').append("<%= escape_javascript rendered_index %>");
+
 $('#notifly-notifications-footer').html("<%= escape_javascript rendered_next_page %>");
+$('#notifly-header-actions').html("<%= escape_javascript rendered_mark_as_read %>");

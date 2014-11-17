@@ -1,18 +1,19 @@
 require 'rails_helper'
 
-describe 'Read notification', :type => :feature do
+describe 'Read notification', :type => :feature, js: true do
   before do
     @receiver = DummyObject.create! name: 'User'
-    @notification_1 = Notifly::Notification.create! receiver: @receiver, template: :default, read: false
-    @notification_2 = Notifly::Notification.create! receiver: @receiver, template: :default, read: false
-    @notification_3 = Notifly::Notification.create! receiver: @receiver, template: :default, read: false
+    @n_1 = Notifly::Notification.create! receiver: @receiver, template: :default, read: false
+    @n_2 = Notifly::Notification.create! receiver: @receiver, template: :default, read: false
+    @n_3 = Notifly::Notification.create! receiver: @receiver, template: :default, read: false
+    Notifly.per_page = 2
 
     visit root_path
     find('#notifly').hover
   end
 
-  scenario 'specific notification', js: true do
-    notification_id = "#notifly-notification-#{@notification_1.id}"
+  scenario 'specific notification' do
+    notification_id = "#notifly-notification-#{@n_2.id}"
     expect(page).to have_selector ("#{notification_id}.notifly-notification-not-read")
 
     within(notification_id) do
@@ -21,5 +22,23 @@ describe 'Read notification', :type => :feature do
 
     expect(page).to     have_selector (notification_id)
     expect(page).to_not have_selector ("#{notification_id}.notifly-notification-not-read")
+  end
+
+  scenario 'mark all read' do
+    expect(page).to     have_selector ("#notifly-notification-#{@n_3.id}.notifly-notification-not-read")
+    expect(page).to     have_selector ("#notifly-notification-#{@n_2.id}.notifly-notification-not-read")
+    expect(page).to_not have_selector ("#notifly-notification-#{@n_1.id}")
+
+    within('#notifly') do
+      click_link 'Mark as read'
+      click_link 'more'
+    end
+
+    expect(page).to     have_selector ("#notifly-notification-#{@n_3.id}")
+    expect(page).to     have_selector ("#notifly-notification-#{@n_2.id}")
+    expect(page).to     have_selector ("#notifly-notification-#{@n_1.id}.notifly-notification-not-read")
+
+    expect(page).to_not have_selector ("#notifly-notification-#{@n_3.id}.notifly-notification-not-read")
+    expect(page).to_not have_selector ("#notifly-notification-#{@n_2.id}.notifly-notification-not-read")
   end
 end

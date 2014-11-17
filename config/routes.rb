@@ -3,6 +3,7 @@ Notifly::Engine.routes.draw do
     post :read
     collection do
       get :count
+      post :read_specific
     end
   end
 end
