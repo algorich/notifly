@@ -1,5 +1,9 @@
 <!-- This partial requires the locals: notification -->
 
-<div class="notifly-notification">
+<div class="notifly-notification-content">
   <%= notification.receiver.name %>, you receive a new notification at <%= notification.created_at %>
+</div>
+
+<div class="notifly-notification-actions">
+  <%= render partial: 'notifly/layouts/actions', locals: { notification: notification }  %>
 </div>

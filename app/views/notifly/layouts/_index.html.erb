@@ -1,5 +1,6 @@
 <!-- This partial requires the locals: notifications -->
 
 <% notifications.each do |notification| %>
-  <%= render partial: "notifly/templates/#{notification.template}", locals: { notification: notification } %>
+  <%= render partial: 'notifly/layouts/notification',
+    locals: { notification: notification } %>
 <% end %>

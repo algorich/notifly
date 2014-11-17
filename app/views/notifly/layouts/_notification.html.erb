@@ -1,0 +1,8 @@
+<!-- This partial requires the locals: notification -->
+
+<% read = notification.read ? '' : 'notifly-notification-not-read' %>
+
+<div id='<%= "notifly-notification-#{notification.id}" %>' class="notifly-notification <%= read %>">
+  <%= render partial: "notifly/templates/#{notification.template}",
+    locals: { notification: notification } %>
+</div>

@@ -10,5 +10,10 @@ module Notifly
       @notifications = Notifly::Notification.all_from(current_user).
         order('created_at DESC').page params[:page]
     end
+
+    def read
+      @notification = Notifly::Notification.find(params[:notification_id])
+      @notification.update(read: true)
+    end
   end
 end

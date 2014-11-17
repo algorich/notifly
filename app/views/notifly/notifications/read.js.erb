@@ -1,0 +1,5 @@
+<% rendered_notification = render partial: 'notifly/layouts/notification',
+  locals: { notification: @notification } %>
+
+$('<%= "#notifly-notification-#{@notification.id}" %>')
+  .replaceWith('<%= escape_javascript rendered_notification %>')
