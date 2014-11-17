@@ -30,7 +30,9 @@ After that we need to configure our gem
   $ rails generate notifly:install [NAMESPACE]
 ```
 
-You can choose to change the namespace for our routes, but the default is `notifly`
+You can choose to change the namespace for our routes, but the default is `notifly`.
+It will creates `config/initializers/notifly.rb` too, in this file you can see/change
+the default configs if you want.
 
 We need storage the notifications and to do it do not forget to run the migrations
 

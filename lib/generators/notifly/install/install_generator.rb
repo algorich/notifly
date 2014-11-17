@@ -9,9 +9,13 @@ module Notifly
 
       desc 'Notifly installation generator'
 
-      def install
+      def mount_engine
         namespace = ask_for('Where do you want to mount Notifly?', 'notifly', namespace)
         route("mount Notifly::Engine => '/#{namespace}', as: 'notifly'")
+      end
+
+      def copy_config
+        template "config/initializers/notifly.rb"
       end
     end
   end
