@@ -1,9 +1,10 @@
+var counter_requested;
+
 var _getCounter = function () {
   var $counter = $('#notifly-counter');
   var $notifly = $('#notifly');
-  requested = false;
 
-  if (!requested) {
+  if (!counter_requested) {
     $.ajax({
       url: $counter.data('path'),
       type: 'GET',
@@ -12,16 +13,22 @@ var _getCounter = function () {
   }
 };
 
-var _refreshCounter = function () {
-  requested = false;
-
-  $('#notifly').click(function () {
-    _getCounter();
-  });
-};
 
 var _handleError = function (data) {
-  requested = false;
+  counter_requested = false;
+};
+
+var _refreshCounter = function () {
+  var counter_requested_count = 0;
+
+  $('#notifly').click(function () {
+    if (counter_requested_count < 1) {
+      counter_requested = false;
+      counter_requested_count += 1;
+
+      _getCounter();
+    };
+  });
 };
 
 $(document).ready(function() {
