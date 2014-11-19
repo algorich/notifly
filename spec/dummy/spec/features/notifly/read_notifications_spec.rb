@@ -9,7 +9,6 @@ describe 'Read notification', :type => :feature, js: true do
     Notifly.per_page = 2
 
     visit root_path
-    wait_for_ajax { find('#notifly').hover }
     wait_for_ajax { find('#notifly-icon').click }
   end
 

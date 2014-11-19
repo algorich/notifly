@@ -1,22 +1,23 @@
+<% notifly = Notifly::Engine.routes.url_helpers %>
 var notifications_requested;
 
 var _getNotifications = function () {
-  var $notifly = $('#notifly');
+  var $notifly = $('#notifly-icon');
 
-  $notifly.hover(function () {
+  $notifly.click(function () {
     if (!notifications_requested) {
       notifications_requested = true;
 
       $.ajax({
-        url: $notifly.data('path'),
+        url: '<%= notifly.notifications_path %>',
         type: 'GET',
-        error: _handleError
+        error: _handleNotificationsError
       });
     }
   });
 };
 
-var _handleError = function (data) {
+var _handleNotificationsError = function () {
   notifications_requested = false;
 };
 

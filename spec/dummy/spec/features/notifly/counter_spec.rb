@@ -18,21 +18,11 @@ describe 'Notifly counter', :type => :feature, js: true do
     Notifly.per_page = 10
   end
 
-  scenario 'loading notifications but not seen them' do
-    within("#notifly-counter") do
-      expect(page).to have_content '3'
-    end
-
-    wait_for_ajax { find('#notifly').hover }
-    visit root_path
-
-    within("#notifly-counter") do
-      expect(page).to have_content '3'
-    end
-  end
-
   scenario 'seeing notifications' do
-    wait_for_ajax { find('#notifly').hover }
+    within("#notifly-counter") do
+      expect(page).to have_content '3'
+    end
+
     wait_for_ajax { find('#notifly-icon').click }
 
     within("#notifly-counter") do
