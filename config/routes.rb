@@ -1,9 +1,11 @@
 Notifly::Engine.routes.draw do
   resources :notifications, only: [:index] do
-    post :read
+    put :read
+
     collection do
-      get :count
-      post :read_specific
+      get :counter
+      put :update_counter
+      put :read_specific
     end
   end
 end

@@ -19,7 +19,7 @@ RSpec.describe Notifly::NotificationsController, :type => :controller do
 
       2.times { Notifly::Notification.create! receiver: other_receiver, template: :default }
 
-      controller.send :count
+      controller.send :counter
 
       expect(response).to have_http_status(:success)
       expect(assigns(:counter)).to eq(3)

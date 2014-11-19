@@ -4,7 +4,7 @@
 
   notifications_pages = { pages: @notifications.current_page }
   rendered_header_actions = link_to 'Mark as read', read_specific_notifications_path(notifications_pages),
-    remote: true, method: :post
+    remote: true, method: :put
 
   rendered_footer = render partial: 'notifly/layouts/footer',
     locals: { notifications: @notifications }
