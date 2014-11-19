@@ -25,9 +25,8 @@ describe 'Notifly counter', :type => :feature do
   end
 
   scenario 'when seeing notifications', js: true do
-    find('#notifly').hover
-    sleep(1)
-    find('#notifly').click
+    wait_for_ajax { find('#notifly').hover }
+    wait_for_ajax { find('#notifly-icon').click }
 
     within("#notifly-counter") do
       expect(page).to have_content '1'

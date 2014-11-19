@@ -32,7 +32,9 @@ module WaitForAjax
     wait_for_ajax
   end
 
-  def wait_for_ajax
+  def wait_for_ajax(&block)
+    block.call if block
+
     Timeout.timeout(Capybara.default_wait_time) do
       loop do
         sleep 0.1

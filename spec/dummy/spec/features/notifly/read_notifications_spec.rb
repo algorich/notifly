@@ -9,10 +9,8 @@ describe 'Read notification', :type => :feature, js: true do
     Notifly.per_page = 2
 
     visit root_path
-    sleep(1)
-    find('#notifly').hover
-    sleep(1)
-    find('#notifly-icon').click
+    wait_for_ajax { find('#notifly').hover }
+    wait_for_ajax { find('#notifly-icon').click }
   end
 
   after(:each) do
@@ -24,7 +22,7 @@ describe 'Read notification', :type => :feature, js: true do
     expect(page).to have_selector ("#{notification_id}.notifly-notification-not-read")
 
     within(notification_id) do
-      click_link 'read'
+      click_ajax_link 'read'
     end
 
     expect(page).to     have_selector (notification_id)
@@ -37,8 +35,8 @@ describe 'Read notification', :type => :feature, js: true do
     expect(page).to_not have_selector ("#notifly-notification-#{@n_1.id}")
 
     within('#notifly') do
-      click_link 'Mark as read'
-      click_link 'More'
+      click_ajax_link 'Mark as read'
+      click_ajax_link 'More'
     end
 
     expect(page).to     have_selector ("#notifly-notification-#{@n_3.id}")
