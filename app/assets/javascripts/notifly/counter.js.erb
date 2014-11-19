@@ -1,0 +1,44 @@
+<% notifly = Notifly::Engine.routes.url_helpers %>
+var notiflyCounterRequested;
+var notiflyIconClicked;
+
+var _notiflyGetCounter = function (notiflyPath) {
+  var $counter = $('#notifly-counter');
+  var $notifly = $('#notifly');
+
+  _notiflyAjaxFor('<%= notifly.counter_notifications_path %>', 'GET');
+};
+
+var _notiflyUpdateCounter = function () {
+  var data = { pages: 1 };
+
+  $('#notifly-icon').click(function () {
+    if (!notiflyIconClicked) {
+      notiflyCounterRequested = false;
+      notiflyIconClicked = true;
+
+      _notiflyAjaxFor('<%= notifly.update_counter_notifications_path %>', 'PUT', data);
+    };
+  });
+};
+
+var _notiflyAjaxFor = function (notiflyPath, requestType, data) {
+  if (!notiflyCounterRequested) {
+    $.ajax({
+      url: notiflyPath,
+      type: requestType,
+      data: data,
+      error: _notiflyHandleCounterError
+    });
+  }
+};
+
+var _notiflyHandleCounterError = function () {
+  notiflyCounterRequested = false;
+  notiflyIconClicked = false;
+};
+
+$(document).ready(function() {
+  _notiflyGetCounter();
+  _notiflyUpdateCounter();
+});
