@@ -11,6 +11,8 @@ describe 'Read notification', :type => :feature, js: true do
     visit root_path
     sleep(1)
     find('#notifly').hover
+    sleep(1)
+    find('#notifly-icon').click
   end
 
   after(:each) do
@@ -36,7 +38,7 @@ describe 'Read notification', :type => :feature, js: true do
 
     within('#notifly') do
       click_link 'Mark as read'
-      click_link 'more'
+      click_link 'More'
     end
 
     expect(page).to     have_selector ("#notifly-notification-#{@n_3.id}")

@@ -1,4 +1,4 @@
 <% rendered_index = render partial: 'notifly/layouts/index',
   locals: { notifications: @notifications } %>
 
-$('#notifly-notifications').html("<%= escape_javascript rendered_index %>");
+$('#notifly-notifications-content').html("<%= escape_javascript rendered_index %>");

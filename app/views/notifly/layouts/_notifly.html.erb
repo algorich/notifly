@@ -1,27 +1,25 @@
 <!-- This partial requires the locals: receiver -->
 
-<div id="notifly" data-path="<%= notifly.notifications_path %>">
+<div id="notifly" class="dropdown" data-path="<%= notifly.notifications_path %>">
 
-  Notifly_icon
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <span id="notifly-counter" data-path="<%= notifly.count_notifications_path %>"></span>
+    <span id="notifly-icon"><%= notifly_icon %></span>
+  </a>
 
-  <div id="notifly-counter" data-path="<%= notifly.count_notifications_path %>">
-  </div>
 
-  <div class="notifly-dropdown">
+  <div id="notifly-notifications-panel" class="dropdown-menu">
     <div id="notifly-notifications-header">
       Notifications
 
-      <div id="notifly-header-actions">
-      </div>
+      <span id="notifly-header-actions" class="pull-right">
+      </span>
     </div>
 
-    <div id="notifly-notifications">
-      <div class="loading">
-        Loading notifications...
-      </div>
+    <div id="notifly-notifications-content">
+       <div class="loading">Loading notifications...</div>
     </div>
 
-    <div id="notifly-notifications-footer">
-    </div>
+    <div id="notifly-notifications-footer"></div>
   </div>
 </div>

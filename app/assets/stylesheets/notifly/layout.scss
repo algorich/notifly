@@ -1,0 +1,41 @@
+.notifly-counter-label {
+  padding: 3px 7px 3px 7px;
+  background: #cc0000;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 9px;
+  -moz-border-radius: 9px;
+  -webkit-border-radius: 9px;
+  position: absolute;
+  margin-top: -8px;
+  margin-left: 12px;
+  font-size: 11px;
+}
+
+#notifly-notifications-panel {
+  padding: 0px !important;
+  border: 0px !important;
+}
+
+#notifly-notifications-header {
+  padding: 9px;
+  font-weight: bold;
+  font-size: 13px;
+  border-bottom: 1px solid #dddddd;
+}
+
+#notifly-notifications-footer {
+  padding: 9px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  border-top: 1px solid #dddddd;
+}
+
+.notifly-notification-not-read {
+  background-color: #e9eaed;
+}
+
+.notifly-notification {
+  padding: 9px;
+}

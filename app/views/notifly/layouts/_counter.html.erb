@@ -1,3 +1,4 @@
 <!-- This partial requires the locals: counter -->
-
-<%= counter %>
+<span class="notifly-counter-label <%= counter > 0 ? '' : 'hide' %>">
+  <%= counter %>
+</span>

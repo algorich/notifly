@@ -3,12 +3,10 @@
 <% read = notification.read ? '' : 'notifly-notification-not-read' %>
 
 <div id='<%= "notifly-notification-#{notification.id}" %>' class="notifly-notification <%= read %>">
-  <div class="notifly-notification-content">
-    <%= render partial: "notifly/templates/#{notification.template}",
-      locals: { notification: notification } %>
-  </div>
+  <%= render partial: "notifly/templates/#{notification.template}",
+    locals: { notification: notification } %>
 
-  <div class="notifly-notification-actions">
+  <span class="notifly-notification-actions">
     <%= render partial: 'notifly/layouts/actions', locals: { notification: notification }  %>
-  </div>
+  </span>
 </div>

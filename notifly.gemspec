@@ -20,6 +20,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-rails', ['>= 3.0', '< 5']
   s.add_dependency 'jquery-ui-rails', '~> 5.0'
   s.add_dependency 'kaminari', '~> 0.16.1'
+  s.add_dependency 'sass-rails', '~> 4.0.3'
+  s.add_dependency 'font-awesome-rails', '~> 4.2.0'
 
   s.add_development_dependency 'pg'
   s.add_development_dependency 'rspec-rails', '~> 3.1.0'
