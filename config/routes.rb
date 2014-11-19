@@ -1,6 +1,6 @@
 Notifly::Engine.routes.draw do
   resources :notifications, only: [:index] do
-    put :read
+    put :toggle_read
 
     collection do
       get :counter

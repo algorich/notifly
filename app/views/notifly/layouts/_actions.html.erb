@@ -1,3 +1,4 @@
 <!-- This partial requires the locals: notification -->
 
-<%= link_to 'read', notification_read_path(notification), method: :put, remote: true %>
+<% link_text = notification.read ? 'unread' : 'read' %>
+<%= link_to link_text, notification_toggle_read_path(notification), method: :put, remote: true %>

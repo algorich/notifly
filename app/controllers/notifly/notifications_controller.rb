@@ -19,9 +19,9 @@ module Notifly
       @notifications.update_all read: true
     end
 
-    def read
+    def toggle_read
       @notification = Notifly::Notification.find(params[:notification_id])
-      @notification.update(read: true)
+      @notification.update(read: !@notification.read)
     end
 
     private
