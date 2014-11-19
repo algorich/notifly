@@ -39,3 +39,12 @@
 .notifly-notification {
   padding: 9px;
 }
+
+#notifly-notifications-panel {
+  width: 430px;
+}
+
+#notifly-notifications-content {
+  overflow-y: scroll;
+  max-height: 300px;
+}
