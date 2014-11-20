@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    notifly (0.0.2)
+    notifly (0.0.3)
       font-awesome-rails (~> 4.2.0)
       jquery-rails (>= 3.0, < 5)
       kaminari (~> 0.16.1)
