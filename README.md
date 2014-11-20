@@ -18,7 +18,7 @@ In actual version, notifications are composed by:
 First we need to add the gem to `Gemfile`
 
 ```ruby
-  gem 'notifly', github: 'algorich/notifly', branch: 'dev'
+  gem 'notifly'
 ```
 
 Run the bundle command to install it. After that, you need to run the initializer
