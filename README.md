@@ -43,7 +43,7 @@ Notifly **need** to storage the notifications and to do it you need to run the m
 
 We have two ways to create notifications: 
 
-#### 1. Using `#notifly` method in your classes (Using callbacks)
+#### 1. Using `#notifly` method in your classes (as callback)
 
 If you want to create notifications after (or before) **any** method call.
 
