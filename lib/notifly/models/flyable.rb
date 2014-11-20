@@ -17,8 +17,11 @@ module Notifly
           if options[:default_values]
             @default_fly = fly
           else
-          _create_callback_for_class_method_from fly if respond_to? fly.method_name
             @flies << fly
+
+            if [:create, :save, :update, :destroy].include? fly.method_name
+              _create_callback_for_active_record_from fly
+            end
           end
         end
 
@@ -44,7 +47,7 @@ module Notifly
             end
           end
 
-          def _create_callback_for_class_method_from(fly)
+          def _create_callback_for_active_record_from(fly)
             callback_name = "#{fly.hook}_#{fly.method_name}"
             flyable_callbacks << "#{callback_name}_#{fly.object_id}"
 
