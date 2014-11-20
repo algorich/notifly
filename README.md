@@ -102,7 +102,7 @@ end
 
 To access the notifications we have tree ways
 
-  - `object.notiflies` (**TODO**)
+  - `object.notifly_notifications`
   - Querying `Notifly::Notifications`
   - Using our front-end helpers
 

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Post, :type => :model do
   it { is_expected.to belong_to(:dummy_object) }
 
-  describe 'Notifly usage' do
+  describe 'Notifly' do
     let(:dummy)        { DummyObject.create! }
     let(:post)         { Post.create! dummy_object: dummy, published: false }
     let(:notification) { Notifly::Notification.take }
@@ -52,6 +52,37 @@ RSpec.describe Post, :type => :model do
             expect { post.change_title }.to_not change(Notifly::Notification, :count)
           end
         end
+      end
+    end
+
+    describe '#notifly_notifications' do
+      it 'should show its notifications' do
+        dummy_notification = Notifly::Notification.create! receiver: dummy,
+          sender: post
+        post_notifications = (1..3).map do
+          Notifly::Notification.create! receiver: post, sender: dummy
+        end
+
+        expect(post.notifly_notifications).to     include(*post_notifications)
+        expect(post.notifly_notifications).to_not include(dummy_notification)
+      end
+
+      it 'should query its notifications' do
+        dummy_2 = DummyObject.create
+        notification_1 = Notifly::Notification.create! receiver: post,
+          sender: dummy, template: 'destroy'
+        notification_2 = Notifly::Notification.create! receiver: post,
+          sender: dummy, target: dummy_2
+        notification_3 = Notifly::Notification.create! receiver: post,
+          sender: dummy, target: dummy_2
+
+        destroy_notifications = post.notifly_notifications.where(template: 'destroy')
+        dummy_2_notifications = post.notifly_notifications.where(target: dummy_2)
+
+        expect(destroy_notifications).to     include(notification_1)
+        expect(destroy_notifications).to_not include(notification_2, notification_3)
+        expect(dummy_2_notifications).to     include(notification_2, notification_3)
+        expect(dummy_2_notifications).to_not include(notification_1)
       end
     end
   end

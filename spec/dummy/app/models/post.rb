@@ -10,6 +10,7 @@ class Post < ActiveRecord::Base
   notifly after:  :change_title, data: :attributes, template: :change_title,
     if: -> { self.title == 'NewTitle' }
 
+
   def publish!
     update(published: true)
   end
@@ -17,5 +18,9 @@ class Post < ActiveRecord::Base
   def change_title
     self.title = 'NewTitle'
     self.save
+  end
+
+  def foo
+    {text: :save}
   end
 end

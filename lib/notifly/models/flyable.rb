@@ -91,6 +91,10 @@ module Notifly
         Notifly::Notification.create! _get_attributes_from(new_fly)
       end
 
+      def notifly_notifications(options={})
+        Notifly::Notification.where(receiver: self)
+      end
+
       private
         def _default_fly
           self.class.default_fly || Notifly::Models::Options::Fly.new
