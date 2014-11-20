@@ -1,5 +1,4 @@
 require 'jquery-rails'
-require 'jquery-ui-rails'
 require 'kaminari'
 
 module Notifly
