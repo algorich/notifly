@@ -7,14 +7,14 @@ require 'notifly/version'
 Gem::Specification.new do |s|
   s.name        = 'notifly'
   s.version     = Notifly::VERSION
-  s.authors     = ['TODO: Your name']
-  s.email       = ['TODO: Your email']
-  s.homepage    = 'TODO'
-  s.summary     = 'TODO: Summary of Notifly.'
-  s.description = 'TODO: Description of Notifly.'
+  s.authors     = ['Pedro Passalini', 'Rafael Carvalho']
+  s.email       = ['henrique.passalini@gmail.com', 'rafael@algorich.com.br']
+  s.homepage    = 'https://github.com/algorich/notifly'
+  s.summary     = 'A full notification system'
+  s.description = 'This project intend to offer a full notification system, back and front-end.'
   s.license     = 'MIT'
 
-  s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.rdoc']
+  s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'rails', '~> 4'
   s.add_dependency 'jquery-rails', ['>= 3.0', '< 5']
