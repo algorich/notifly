@@ -18,7 +18,7 @@ In actual version, notifications are composed by:
 First we need to add the gem to `Gemfile`
 
 ```ruby
-  gem 'notifly', github: 'algorich/notifly', branch: 'dev'
+  gem 'notifly'
 ```
 
 Run the bundle command to install it. After that, you need to run the initializer
@@ -41,8 +41,11 @@ Notifly **need** to storage the notifications and to do it you need to run the m
 
 ## Back-end
 
-We have two ways to create notifications, with both you will need at least an user
-object to be the receiver. You can define notification's creation with `notifly`
+We have two ways to create notifications: 
+
+#### 1. Using `#notifly` method in your classes (as callback)
+
+If you want to create notifications after (or before) **any** method call.
 
 ```ruby
 class TicketOrder < ActiveRecord::Base
@@ -66,13 +69,26 @@ class TicketOrder < ActiveRecord::Base
   end
 end
 ```
+Value explanation about each parameter:
 
-Note that with this way you can use the `default_values`, it is specific to DRY your
-notiflies, the values there will be in all notiflies, but if you want to overwrite
-some default value in a specific notifly, just declare it again like the
-`:accept_gift` notifly above.
+| Parameter           | Value         |
+| ------------------- | ------------- |
+| `before` or `after` | The method which will create notification before or after its call |
+| `receiver`          | The method which returns the notification receiver object          |
+| `sender`            | The method which returns the notification sender object            |
+| `template`          | The symbol or string that indicates which partial will be rendered at views. The partial must be inside `app/views/notifly/templates/`. Default is `:default`. |
+| `target`            | The method which returns the notification target object. It's a third actor of the notification. Example: In "Max sent you a ticket" notification, Max is the sender, you are the receiver and the **ticket is the target**. |
+| `data`              | A method which returns a hash with usefull values to be persisted, like ticket price or whatever you want to persist. |
 
-If you want you can create notifications with the "hard" way
+Note that you can use the `default_values` parameter, it is specific to DRY your
+notiflies and set the values to all notiflies. If you need to overwrite some 
+default value, just declare it again like the `:accept_gift` notifly above.
+
+
+#### Using `#notifly!` method on your receiver object
+
+If you need to create notifications without callbacks, even in the 
+controller scope.
 
 ```ruby
 class TicketOrder < ActiveRecord::Base
@@ -100,9 +116,11 @@ class TicketOrder < ActiveRecord::Base
 end
 ```
 
-To access the notifications we have tree ways
+The receiver will be always the object which you call `#notifly!`
 
-  - `object.notifly_notifications`
+You can access the notifications using the following methods:
+
+  - `object.notiflies` (**TODO**)
   - Querying `Notifly::Notifications`
   - Using our front-end helpers
 
@@ -133,9 +151,9 @@ This will inject our views and it will be like that
 
 ![image](http://upl.io/i/4i26o3.png)
 
-As you can see, notifications are rendered with their templates, we use a simple
+As you can see, notifications are rendered with their templates. It uses a simple
 default template but if you want to change it or create new ones run the code below
-or create them in `app/views/notifly/templates`
+or create them in `app/views/notifly/templates/_your_template.html.erb`
 
 ```shell
   $ rails generate notifly:views
