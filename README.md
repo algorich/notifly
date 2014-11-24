@@ -1,4 +1,4 @@
-# Notifly
+# Notifly [![Build Status](https://travis-ci.org/algorich/notifly.svg)](https://travis-ci.org/algorich/notifly)
 
 This project is still under development and it intend to offer a full notification
 system, back and front-end. Questions and suggestions are welcome and you can
