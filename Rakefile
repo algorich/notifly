@@ -20,5 +20,6 @@ Jeweler::Tasks.new do |gem|
   gem.summary     = 'A full notification system'
   gem.description = 'This project intend to offer a full notification system, back and front-end.'
   gem.license     = 'MIT'
+  gem.files = Dir['{app,config,db,lib,vendor}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 end
 Jeweler::RubygemsDotOrgTasks.new
