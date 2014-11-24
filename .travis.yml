@@ -1,13 +1,10 @@
 language: ruby
 
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
-  - cd spec/dummy
   - cp config/database.travis.yml config/database.yml
+  - psql -c 'create database travis_ci_test;' -U postgres
   - bundle install
-  - bundle exec rake db:create
-  - bundle exec rake notifly:install:migrations
-  - bundle exec rake db:create db:migrate
+  - bundle exec rake db:migrate
   - cd ../../
 
 rvm:
