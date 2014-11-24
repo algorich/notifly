@@ -38,6 +38,7 @@ see/change the default configs
 Notifly **need** to storage the notifications and to do it you need to run the migrations
 
 ```shell
+  $ rake notifly:install:migrations
   $ rake db:migrate
 ```
 
