@@ -1,6 +1,10 @@
 # Notifly
 
-This project intend to offer a full notification system, back and front-end.
+This project is still under development and it intend to offer a full notification
+system, back and front-end. Questions and suggestions are welcome and you can
+use the [issues list](https://github.com/algorich/notifly/issues) on Github to
+provide that feedback.
+
 In actual version, notifications are composed by:
 
   - Receiver (**required**): the object that will receive the notification
@@ -41,7 +45,7 @@ Notifly **need** to storage the notifications and to do it you need to run the m
 
 ## Back-end
 
-We have two ways to create notifications: 
+We have two ways to create notifications:
 
 #### 1. Using `#notifly` method in your classes (as callback)
 
@@ -81,13 +85,13 @@ Value explanation about each parameter:
 | `data`              | A method which returns a hash with usefull values to be persisted, like ticket price or whatever you want to persist. |
 
 Note that you can use the `default_values` parameter, it is specific to DRY your
-notiflies and set the values to all notiflies. If you need to overwrite some 
+notiflies and set the values to all notiflies. If you need to overwrite some
 default value, just declare it again like the `:accept_gift` notifly above.
 
 
 #### Using `#notifly!` method on your receiver object
 
-If you need to create notifications without callbacks, even in the 
+If you need to create notifications without callbacks, even in the
 controller scope.
 
 ```ruby
@@ -120,7 +124,7 @@ The receiver will be always the object which you call `#notifly!`
 
 You can access the notifications using the following methods:
 
-  - `object.notiflies` (**TODO**)
+  - `receiver_object.notiflies`
   - Querying `Notifly::Notifications`
   - Using our front-end helpers
 
@@ -193,5 +197,26 @@ Above are the elements that will loading the Notifly in your layout
   - **Toggle read**: this link will be rendered by `_actions.html.erb' in
     `_notification.html.erb`
 
+# Contributing
 
+Consider to use [zenhub](https://www.zenhub.io/), with it will know what issues
+and features are in "progress" or "to do". Also, I encourage you to use
+[git-flow](http://github.com/nvie/gitflow) and [EditorConfig](http://editorconfig.org).
 
+Fork the repository.  Then, run:
+
+```shell
+  git clone git@github.com:<username>/notifly.git
+  cd notifly
+  git branch master origin/master
+  git flow init -d
+  git flow feature start <your-feature>
+```
+
+Then, do work and commit your changes.
+
+```shell
+  git flow feature publish <your feature>
+```
+
+When done, open a pull request to your feature branch.
