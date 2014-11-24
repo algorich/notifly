@@ -1,4 +1,4 @@
-# Notifly [![Build Status](https://travis-ci.org/algorich/notifly.svg)](https://travis-ci.org/algorich/notifly)
+# Notifly [![Build Status](https://travis-ci.org/algorich/notifly.svg?branch=master)](https://travis-ci.org/algorich/notifly) [![Dependency Status](https://gemnasium.com/algorich/notifly.svg)](https://gemnasium.com/algorich/notifly)
 
 This project is still under development and it intend to offer a full notification
 system, back and front-end. Questions and suggestions are welcome and you can
@@ -38,6 +38,7 @@ see/change the default configs
 Notifly **need** to storage the notifications and to do it you need to run the migrations
 
 ```shell
+  $ rake notifly:install:migrations
   $ rake db:migrate
 ```
 

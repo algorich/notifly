@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20141117193436) do
 
   create_table "notifly_notifications", force: true do |t|
     t.string   "template"
-    t.boolean  "read"
+    t.boolean  "read",          default: false
     t.integer  "target_id"
     t.string   "target_type"
     t.integer  "sender_id"
