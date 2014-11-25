@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141117193436) do
+ActiveRecord::Schema.define(version: 20141125165636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20141117193436) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "email"
   end
 
   create_table "notifly_notifications", force: true do |t|
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(version: 20141117193436) do
     t.datetime "updated_at"
     t.text     "data"
     t.boolean  "seen",          default: false
+    t.string   "mail"
   end
 
   add_index "notifly_notifications", ["receiver_id", "receiver_type"], name: "index_notifly_notifications_on_receiver_id_and_receiver_type", using: :btree
