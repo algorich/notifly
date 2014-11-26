@@ -48,7 +48,7 @@ Notifly **need** to storage the notifications and to do it you need to run the m
 
 We have two ways to create notifications:
 
-#### 1. Using `#notifly` method in your classes (as callback)
+### Using `#notifly` method in your classes (as callback)
 
 If you want to create notifications after (or before) **any** method call.
 
@@ -90,7 +90,7 @@ notiflies and set the values to all notiflies. If you need to overwrite some
 default value, just declare it again like the `:accept_gift` notifly above.
 
 
-#### Using `#notifly!` method on your receiver object
+### Using `#notifly!` method on your receiver object
 
 If you need to create notifications without callbacks, even in the
 controller scope.
@@ -122,6 +122,44 @@ end
 ```
 
 The receiver will be always the object which you call `#notifly!`
+
+### Mail
+
+Notifly can send mails too. To do it, just add the option `mail` to your notifly
+statement
+
+```ruby
+class TicketOrder < ActiveRecord::Base
+  belongs_to :ticket
+  belongs_to :buyer
+  belongs_to :owner
+
+  notifly default_values: { receiver: :owner }
+
+  notifly before: :destroy, template: :destroy_order_notification, sender: :buyer,
+    data: :attributes, email: { template: :destroy_order_mail }
+  notifly after: :send_gift!, template: :ticket_gift, sender: :buyer,
+    target: :ticket, email: true, if: -> { completed? }
+  notifly after: :accept_gift, sender: :owner, receiver: :buyer, target: :ticket,
+    template: :accept_gift, email: { only: true }
+
+  def send_gift!
+    # code here
+  end
+
+  def accept_gift
+    # code here
+  end
+end
+```
+
+| Email                        | Description |
+| ---------------------------- | ----------- |
+| `true`                       | send email and notification using notifly template |
+| `only: true`                 | send only an email using notifly template |
+| `template: :foo`             | send email using `foo` mail template and a notification using notifly template |
+
+### Notifications access
 
 You can access the notifications using the following methods:
 
@@ -156,12 +194,14 @@ This will inject our views and it will be like that
 
 ![image](http://upl.io/i/4i26o3.png)
 
-Notifications are rendered with their templates. It uses a simple default
-template but if you want to change it or create new ones run the code below
-or create them in `app/views/notifly/templates/_your_template.html.erb`
+Notifications and Mails are rendered with their templates. They use a simple default
+template but if you want to change or create new ones run the generate below
+with the option that you want or create them in `app/views/notifly/templates/`.
+Remember that notifications templates should be in `notifications` folder and
+mails templates in `mails` folder.
 
 ```shell
-  $ rails generate notifly:views --notification
+  $ rails generate notifly:views
 ```
 
 | Option           | Description |
@@ -172,6 +212,11 @@ or create them in `app/views/notifly/templates/_your_template.html.erb`
 
 If you already have a layout and just want add our features to it, take a look
 at [Adapting your layout](#adapting).
+
+### I18n
+
+Notifly uses I18n to render the mail's subject and if you run the install generator
+you can change it in `config/locales/notifly.en.yaml` or create your own.
 
 ### <a name='adapting'></a> Adapting your layout
 
