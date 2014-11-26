@@ -8,10 +8,10 @@ class DummyObject < ActiveRecord::Base
 
   notifly before: :destroy,  template: :destroy_smart, mail: true,  if: :is_smart?
 
-  notifly before: :destroy,  template: :destroy_dummy, mail: { only: true },
-    unless: :is_smart?
-  notifly after:  :be_smart, template: :be_smart,      mail: { only: true },
-    if:     :is_smart?
+  notifly before: :destroy,  template: :destroy_dummy, mail: { only: true,
+    template: :default }, unless: :is_smart?
+  notifly after:  :be_smart, template: :be_smart,      mail: { only: true,
+    template: :default }, if:     :is_smart?
 
   notifly after: :buzz, if: :is_smart?
 

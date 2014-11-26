@@ -94,7 +94,8 @@ module Notifly
         notification = Notifly::Notification.create! _get_attributes_from(new_fly)
 
         if new_fly.mail.present?
-          Notifly::NotificationMailer.notifly(to: self.email, notification: notification)
+          Notifly::NotificationMailer.notifly to: self.email, fly: new_fly,
+            notification: notification
         end
       end
 
