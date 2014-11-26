@@ -26,11 +26,11 @@ module Notifly
 
     private
       def current_user_notifications
-        current_user.notifly_notifications.order('created_at DESC')
+        current_user.notifly_notifications.not_only_mail.order('created_at DESC')
       end
 
       def count_unseen
-        current_user.notifly_notifications.unseen.count
+        current_user_notifications.unseen.count
       end
   end
 end

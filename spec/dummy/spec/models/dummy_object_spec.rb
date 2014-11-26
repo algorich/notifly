@@ -71,14 +71,14 @@ RSpec.describe DummyObject, :type => :model do
         expect { smart.destroy! }.to change(emails_sent, :size).from(0).to(1)
 
         expect(notifications.count).to eql(1)
-        expect(smart.notifly_notifications).to include notifications.take
+        expect(smart.notifly_notifications.not_only_mail).to include notifications.take
       end
 
       it 'should create an invisible notification with email' do
         expect { dummy.be_smart }.to change(emails_sent, :size).from(0).to(1)
 
         expect(notifications.count).to eql(1)
-        expect(dummy.notifly_notifications).to_not include notifications.take
+        expect(dummy.notifly_notifications.not_only_mail).to_not include notifications.take
       end
     end
   end

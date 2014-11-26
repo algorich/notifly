@@ -159,13 +159,23 @@ end
 | `only: true`                 | send only an email using notifly template |
 | `template: :foo`             | send email using `foo` mail template and a notification using notifly template |
 
+Notiflies with `mail: { only: true }` will persist notifications, but them won't
+be in receivers notifications views
+
 ### Notifications access
 
 You can access the notifications using the following methods:
 
-  - `receiver_object.notiflies`
+  - `receiver_object.notifly_notifications`
   - Querying `Notifly::Notifications`
   - Using our front-end helpers
+
+#### Useful scopes
+
+  - all_from: used on `Notifly::Notifications` to show notifications from a specific receiver
+  - unseen: used on `Notifly::Notifications` and `#notifly_notifications` to show **only** unseen notifications
+  - not_only-mail: used on `Notifly::Notifications` and `#notifly_notifications` to remove notification that are **mail only**
+
 
 ## Front-end
 

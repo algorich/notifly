@@ -100,7 +100,7 @@ module Notifly
       end
 
       def notifly_notifications
-        Notifly::Notification.all_from(self).not_only_mail
+        Notifly::Notification.all_from(self)
       end
 
       private
