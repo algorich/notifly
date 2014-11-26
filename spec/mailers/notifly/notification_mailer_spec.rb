@@ -22,5 +22,18 @@ module Notifly
     it 'should guarantee that all information appears on the email body' do
       expect(mail.body).to include('Default notification mail')
     end
+
+    context 'when using other templates' do
+      let(:notification) { Notifly::Notification.create! receiver: dummy,
+        mail: :always, template: :hello }
+
+      it 'should guarantee that the subject us correct' do
+        expect(mail.subject).to include('Hello!')
+      end
+
+      it 'should guarantee that all information appears on the email body' do
+        expect(mail.body).to include('Hello mail')
+      end
+    end
   end
 end
