@@ -19,8 +19,8 @@ module Notifly
       expect(mail.subject).to include('You have a new notification')
     end
 
-    xit 'should guarantee that all information appears on the email body' do
-      expect(mail.body).to include('')
+    it 'should guarantee that all information appears on the email body' do
+      expect(mail.body).to include('Default notification mail')
     end
   end
 end
