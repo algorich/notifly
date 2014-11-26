@@ -9,15 +9,16 @@ RSpec.describe Notifly::NotificationsController, :type => :controller do
       other_receiver = DummyObject.create
 
       Notifly::Notification.create! receiver: receiver, template: :default,
-        seen: false, read: true
+        seen: false, read: true, mail: :never
       Notifly::Notification.create! receiver: receiver, template: :default,
-        seen: false, read: true
+        seen: false, read: true, mail: :never
       Notifly::Notification.create! receiver: receiver, template: :default,
-        seen: false, read: true
+        seen: false, read: true, mail: :never
       Notifly::Notification.create! receiver: receiver, template: :default,
-        seen: true, read: true
+        seen: true, read: true, mail: :never
 
-      2.times { Notifly::Notification.create! receiver: other_receiver, template: :default }
+      2.times { Notifly::Notification.create! receiver: other_receiver,
+        template: :default, mail: :never }
 
       controller.send :counter
 
@@ -32,8 +33,9 @@ RSpec.describe Notifly::NotificationsController, :type => :controller do
       other_receiver = DummyObject.create
 
       15.times { Notifly::Notification.create! receiver: receiver, template: :default,
-        read: [true, false].sample }
-      2.times { Notifly::Notification.create! receiver: other_receiver, template: :default }
+        read: [true, false].sample, mail: :never }
+      2.times { Notifly::Notification.create! receiver: other_receiver,
+        template: :default, mail: :never }
 
       controller.send :index
 

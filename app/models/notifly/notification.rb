@@ -6,10 +6,11 @@ module Notifly
 
     before_validation :convert_data, :set_template
 
-    scope :all_from,    ->(receiver) { where(receiver: receiver) }
-    scope :unseen_from, ->(receiver) { where(receiver: receiver, seen: false) }
+    scope :all_from,          -> (receiver) { where(receiver: receiver) }
+    scope :unseen,            -> { where(seen: false) }
+    scope :not_only_mail,     -> { where.not(mail: 'only') }
 
-    validates :receiver, :template, presence: true
+    validates :receiver, :template, :mail, presence: true
 
     def data
       YAML.load(read_attribute(:data))

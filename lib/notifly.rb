@@ -16,6 +16,9 @@ module Notifly
   mattr_accessor :icon_empty
   @@icon_empty = 'bell-o'
 
+  mattr_accessor :mailer_sender
+  @@mailer_sender = 'change-me-at-config-initializers-notifly@exemple.com'
+
   # Default way to setup Notifly. Run rails generate notifly:install to create
   # a fresh initializer with all configuration values.
   def self.setup

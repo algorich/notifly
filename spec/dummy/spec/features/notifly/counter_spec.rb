@@ -1,17 +1,19 @@
 require 'rails_helper'
 
 describe 'Notifly counter', :type => :feature, js: true do
-  before(:each) do
-    receiver = DummyObject.create! name: 'User'
-    Notifly::Notification.create! receiver: receiver, seen: true, read: false
-    Notifly::Notification.create! receiver: receiver, seen: false, read: false
-    Notifly::Notification.create! receiver: receiver, seen: false, read: false
-    Notifly::Notification.create! receiver: receiver, seen: false, read: false
-    Notifly::Notification.create! receiver: DummyObject.create!, seen: false, read: false
-    Notifly::Notification.create! receiver: DummyObject.create!, seen: false, read: false
-    Notifly.per_page = 2
+  let(:notification) { Notifly::Notification }
+  let(:receiver)     { DummyObject.create! name: 'User' }
 
-    visit root_path
+  before(:each) do
+    notification.create! receiver: receiver, seen: true, read: false, mail: :never
+    notification.create! receiver: receiver, seen: false, read: false, mail: :never
+    notification.create! receiver: receiver, seen: false, read: false, mail: :always
+    notification.create! receiver: receiver, seen: false, read: false, mail: :always
+    notification.create! receiver: DummyObject.create!, seen: false, read: false,
+      mail: :never
+    notification.create! receiver: DummyObject.create!, seen: false, read: false,
+      mail: :never
+    Notifly.per_page = 2
   end
 
   after(:each) do
@@ -19,6 +21,7 @@ describe 'Notifly counter', :type => :feature, js: true do
   end
 
   scenario 'seeing notifications' do
+    visit root_path
     within("#notifly-counter") do
       expect(page).to have_content '3'
     end
@@ -33,6 +36,18 @@ describe 'Notifly counter', :type => :feature, js: true do
 
     within("#notifly-counter") do
       expect(page).to_not have_content '1'
+    end
+  end
+
+  context 'when notification is mail only' do
+    scenario 'seeing only notifications without mail only' do
+      notification.create! receiver: receiver, seen: false, read: false, mail: :only
+      visit root_path
+
+      within("#notifly-counter") do
+        expect(page).to_not have_content '4'
+        expect(page).to     have_content '3'
+      end
     end
   end
 end

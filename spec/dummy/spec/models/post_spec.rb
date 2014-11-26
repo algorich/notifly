@@ -58,9 +58,9 @@ RSpec.describe Post, :type => :model do
     describe '#notifly_notifications' do
       it 'should show its notifications' do
         dummy_notification = Notifly::Notification.create! receiver: dummy,
-          sender: post
+          sender: post, mail: :never
         post_notifications = (1..3).map do
-          Notifly::Notification.create! receiver: post, sender: dummy
+          Notifly::Notification.create! receiver: post, sender: dummy, mail: :never
         end
 
         expect(post.notifly_notifications).to     include(*post_notifications)
@@ -70,11 +70,11 @@ RSpec.describe Post, :type => :model do
       it 'should query its notifications' do
         dummy_2 = DummyObject.create
         notification_1 = Notifly::Notification.create! receiver: post,
-          sender: dummy, template: 'destroy'
+          sender: dummy, template: 'destroy', mail: :never
         notification_2 = Notifly::Notification.create! receiver: post,
-          sender: dummy, target: dummy_2
+          sender: dummy, target: dummy_2, mail: :never
         notification_3 = Notifly::Notification.create! receiver: post,
-          sender: dummy, target: dummy_2
+          sender: dummy, target: dummy_2, mail: :never
 
         destroy_notifications = post.notifly_notifications.where(template: 'destroy')
         dummy_2_notifications = post.notifly_notifications.where(target: dummy_2)

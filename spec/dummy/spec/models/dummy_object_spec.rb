@@ -4,11 +4,10 @@ RSpec.describe DummyObject, :type => :model do
   it { is_expected.to have_many(:posts) }
 
   describe 'Notifly' do
-    let(:smart)              { DummyObject.create name: 'smart' }
-    let(:dummy)              { DummyObject.create name: nil }
-    let(:notifications)      { Notifly::Notification }
-
     it 'should return the method return' do
+      smart = DummyObject.create name: 'smart'
+      dummy = DummyObject.create name: nil
+
       expect(smart.buzz).to eql('buzz')
       expect(dummy.buzz).to eql('buzz')
 
@@ -17,6 +16,8 @@ RSpec.describe DummyObject, :type => :model do
     end
 
     context 'when using ActiveRecord methods' do
+      let(:notifications) { Notifly::Notification.not_only_mail }
+
       describe 'class methods' do
         describe '.create' do
           it { expect { DummyObject.create name: 'dummy' }.
@@ -27,9 +28,10 @@ RSpec.describe DummyObject, :type => :model do
       end
 
       describe 'instance methods' do
+        let!(:smart) { DummyObject.create name: 'smart', email: 'smart@mail.com' }
+        let!(:dummy) { DummyObject.create name: nil, email: 'dummy@mail.com' }
+
         before(:each) do
-          smart
-          dummy
           notifications.delete_all
         end
 
@@ -52,6 +54,31 @@ RSpec.describe DummyObject, :type => :model do
             from(0).to(1) }
           it { expect { dummy.destroy! }.to_not change(notifications, :count) }
         end
+      end
+    end
+
+    context 'when notifly send email' do
+      let!(:smart) { DummyObject.create name: 'smart', email: 'smart@mail.com' }
+      let!(:dummy) { DummyObject.create name: nil, email: 'dummy@mail.com' }
+      let(:notifications) { Notifly::Notification }
+
+      before(:each) do
+        notifications.delete_all
+        emails_sent.clear
+      end
+
+      it 'should create a visible notification with email' do
+        expect { smart.destroy! }.to change(emails_sent, :size).from(0).to(1)
+
+        expect(notifications.count).to eql(1)
+        expect(smart.notifly_notifications).to include notifications.take
+      end
+
+      it 'should create an invisible notification with email' do
+        expect { dummy.be_smart }.to change(emails_sent, :size).from(0).to(1)
+
+        expect(notifications.count).to eql(1)
+        expect(dummy.notifly_notifications).to_not include notifications.take
       end
     end
   end

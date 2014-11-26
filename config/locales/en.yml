@@ -1,0 +1,4 @@
+en:
+  notifly:
+    mail_subject:
+      default: 'You have a new notification'

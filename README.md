@@ -156,17 +156,22 @@ This will inject our views and it will be like that
 
 ![image](http://upl.io/i/4i26o3.png)
 
-As you can see, notifications are rendered with their templates. It uses a simple
-default template but if you want to change it or create new ones run the code below
+Notifications are rendered with their templates. It uses a simple default
+template but if you want to change it or create new ones run the code below
 or create them in `app/views/notifly/templates/_your_template.html.erb`
 
 ```shell
-  $ rails generate notifly:views
+  $ rails generate notifly:views --notification
 ```
 
-Now if you want to customize the layout, just generate it adding the option `--layout`
-to the code above and change it as you want. But if you already have a layout and just
-want add our features to it, take a look at [Adapting your layout](#adapting).
+| Option           | Description |
+| ---------------- | ----------- |
+| `--notification` | generates notifications templates files |
+| `--layout`       | generates layout files |
+| `--mail`         | generates mail templates files |
+
+If you already have a layout and just want add our features to it, take a look
+at [Adapting your layout](#adapting).
 
 ### <a name='adapting'></a> Adapting your layout
 
