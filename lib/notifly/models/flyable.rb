@@ -90,19 +90,17 @@ module Notifly
       end
 
       def _create_notification_for(fly)
-        begin
-          new_fly = _default_fly.merge(fly)
-          notification = Notifly::Notification.create _get_attributes_from(new_fly)
+        new_fly = _default_fly.merge(fly)
+        notification = Notifly::Notification.create _get_attributes_from(new_fly)
 
-          if new_fly.mail.present?
-            template = new_fly.mail.try(:fetch, :template) || notification.template
+        if new_fly.mail.present?
+          template = new_fly.mail.try(:fetch, :template) || notification.template
 
-            Notifly::NotificationMailer.notifly to: self.email, template: template,
-              notification_id: notification.id
-          end
-        rescue => e
-          logger.warn "Something goes wrong with Notifly, will ignore: #{e}"
+          Notifly::NotificationMailer.notifly to: self.email, template: template,
+            notification_id: notification.id
         end
+      rescue => e
+        logger.error "Something goes wrong with Notifly, will ignore: #{e}"
       end
 
       def notifly_notifications

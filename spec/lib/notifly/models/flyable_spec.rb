@@ -7,7 +7,7 @@ module Notifly
     it 'should not raise an error if something wrong happened' do
       allow(Notifly::Notification).to receive(:create).
         and_raise(ActiveRecord::RecordInvalid, Notifly::Notification.new)
-      expect(Rails.logger).to receive(:warn)
+        expect(Rails.logger).to receive(:error)
 
       expect { dummy.be_smart }.to_not raise_error
     end
