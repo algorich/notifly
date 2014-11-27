@@ -160,7 +160,8 @@ end
 | `template: :foo`             | send email using `foo` mail template and a notification using notifly template |
 
 Notiflies with `mail: { only: true }` will persist notifications, but them won't
-be in receivers notifications views
+be in receivers notifications views. If you use [delayed_job](https://github.com/collectiveidea/delayed_job)
+or [sidekiq](https://github.com/mperham/sidekiq) mails will be send async.
 
 ### Notifications access
 
