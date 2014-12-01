@@ -10,11 +10,11 @@
     locals: { notifications: @notifications }
 %>
 
-$('#notifly-header-actions').html("<%= escape_javascript rendered_header_actions %>");
+$('#notifly-header-actions').html("<%= j rendered_header_actions %>");
 
 $('#notifly-notifications-content .loading').remove();
-$('#notifly-notifications-content').append("<%= escape_javascript rendered_notifications %>");
-$('#notifly-notifications-footer').html("<%= escape_javascript rendered_footer %>");
+$('#notifly-notifications-content').append("<%= j rendered_notifications %>");
+$('#notifly-notifications-footer').html("<%= j rendered_footer %>");
 
-$('#notifly-counter').html("<%= escape_javascript(render 'notifly/layouts/counter', counter: @counter)%>");
-$('#notifly-icon').html("<%= escape_javascript notifly_icon(@counter > 0) %>")
+$('#notifly-counter').html("<%= j(render 'notifly/layouts/counter', counter: @counter)%>");
+$('#notifly-icon').html("<%= j notifly_icon(@counter > 0) %>")
