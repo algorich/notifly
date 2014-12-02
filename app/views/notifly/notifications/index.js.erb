@@ -2,15 +2,15 @@
   rendered_notifications = render partial: 'notifly/layouts/index',
     locals: { notifications: @notifications }
 
-  notifications_pages = { pages: @notifications.current_page }
-  rendered_header_actions = link_to 'Mark as read', read_specific_notifications_path(notifications_pages),
+  page = { current_notification_id: @notifications.last.id }
+  rendered_header_actions = link_to 'Mark as read', read_specific_notifications_path(page),
     remote: true, method: :put
 
   rendered_footer = render partial: 'notifly/layouts/footer',
     locals: { notifications: @notifications }
 %>
 
-$('#notifly-header-actions').html("<%= j rendered_header_actions %>");
+$('#notifly-header-actions').html("<%=  j rendered_header_actions %>");
 
 $('#notifly-notifications-content .loading').remove();
 $('#notifly-notifications-content').append("<%= j rendered_notifications %>");

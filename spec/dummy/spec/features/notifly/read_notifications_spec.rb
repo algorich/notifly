@@ -13,7 +13,7 @@ describe 'Read notification', :type => :feature, js: true do
     Notifly.per_page = 10
   end
 
-  let(:open_notifly) do
+  def open_notifly
     visit root_path
     wait_for_ajax { find('#notifly-icon').click }
   end

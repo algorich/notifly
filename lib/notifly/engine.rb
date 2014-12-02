@@ -1,5 +1,4 @@
 require 'jquery-rails'
-require 'kaminari'
 
 module Notifly
   class Engine < ::Rails::Engine

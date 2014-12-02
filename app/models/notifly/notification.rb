@@ -6,9 +6,16 @@ module Notifly
 
     before_validation :convert_data, :set_template
 
-    scope :all_from,          -> (receiver) { where(receiver: receiver) }
-    scope :unseen,            -> { where(seen: false) }
-    scope :not_only_mail,     -> { where.not(mail: 'only') }
+    scope :all_from,      -> (receiver) { where(receiver: receiver) }
+    scope :unseen,        -> { where(seen: false) }
+    scope :not_only_mail, -> { where.not(mail: 'only') }
+    scope :page,     ->(from: nil) do
+      id = from.try(:id) || from
+
+      page = order('created_at DESC')
+      page = page.where('id < ?', id) if id.present?
+      page.limit(Notifly.per_page)
+    end
 
     validates :receiver, :template, :mail, presence: true
 

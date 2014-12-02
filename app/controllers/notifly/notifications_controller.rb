@@ -7,15 +7,14 @@ module Notifly
     end
 
     def index
-      @notifications = current_user_notifications.page(params[:page]).per(Notifly.per_page)
+      @notifications = current_user_notifications.page(from: params[:current_notification_id])
       Notifly::Notification.where(id: @notifications.map(&:id)).update_all(seen: true)
       @counter = count_unseen
     end
 
 
     def read_specific
-      size = params[:pages].to_i * Notifly.per_page
-      @notifications = current_user_notifications.limit(size)
+      @notifications = current_user_notifications.where('id >= ?', params[:current_notification_id])
       @notifications.update_all read: true
     end
 
@@ -31,7 +30,7 @@ module Notifly
 
     private
       def current_user_notifications
-        current_user.notifly_notifications.not_only_mail.order('created_at DESC')
+        current_user.notifly_notifications.not_only_mail
       end
 
       def count_unseen
