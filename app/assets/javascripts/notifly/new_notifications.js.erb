@@ -1,0 +1,17 @@
+<% notifly = Notifly::Engine.routes.url_helpers %>
+
+var _notiflyGetNewestNotifications = function () {
+  $.ajax({
+    url: '<%= notifly.newest_notifications_path %>',
+    type: 'GET',
+    complete: _notiflyRepeatRequest
+  });
+};
+
+var _notiflyRepeatRequest = function () {
+  setTimeout(_notiflyGetNewestNotifications, <%= Notifly.timeout %>);
+};
+
+$(document).ready(function() {
+  _notiflyGetNewestNotifications();
+});

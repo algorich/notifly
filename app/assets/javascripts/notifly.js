@@ -2,4 +2,5 @@
 //= require 'jquery_ujs'
 //= require 'notifly/counter'
 //= require 'notifly/get_notifications'
+//= require 'notifly/new_notifications'
 //= require 'twitter/bootstrap'

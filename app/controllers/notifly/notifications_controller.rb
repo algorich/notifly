@@ -24,6 +24,11 @@ module Notifly
       @notification.update(read: !@notification.read)
     end
 
+    def newest
+      @notifications = current_user_notifications.unseen
+      @counter = count_unseen
+    end
+
     private
       def current_user_notifications
         current_user.notifly_notifications.not_only_mail.order('created_at DESC')

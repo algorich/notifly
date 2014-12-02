@@ -4,6 +4,7 @@ Notifly::Engine.routes.draw do
 
     collection do
       get :counter
+      get :newest
       put :update_counter
       put :read_specific
     end
