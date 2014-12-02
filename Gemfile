@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4'
 gem 'jquery-rails', ['>= 3.0', '< 5']
-gem 'kaminari', '~> 0.16.1'
 gem 'font-awesome-rails', '~> 4.2.0'
 
 group :development, :test do
