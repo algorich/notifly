@@ -2,20 +2,17 @@ require_dependency "notifly/application_controller"
 
 module Notifly
   class NotificationsController < ApplicationController
-    def counter
-      @counter = count_unseen
-    end
-
     def index
-      @notifications = current_user_notifications.page(from: params[:current_notification_id])
-      Notifly::Notification.where(id: @notifications.map(&:id)).update_all(seen: true)
+      @notifications = scoped_notifications
+      @notifications.update_all(seen: true) if params[:mark_as_seen] == 'true'
+
       @counter = count_unseen
+      @scope_param = scope_param
     end
 
-
-    def read_specific
-      @notifications = current_user_notifications.where('id >= ?', params[:current_notification_id])
-      @notifications.update_all read: true
+    def read
+      @notifications = notifications_between
+      @notifications.update_all(read: true)
     end
 
     def toggle_read
@@ -23,18 +20,32 @@ module Notifly
       @notification.update(read: !@notification.read)
     end
 
-    def newest
-      @notifications = current_user_notifications.unseen
+    def seen
+      @notifications = notifications_between
+      @notifications.update_all(seen: true)
       @counter = count_unseen
     end
 
     private
+      def scoped_notifications
+        current_user_notifications.send(scope_param, than: params[:reference_notification_id])
+      end
+
+      def scope_param
+        return params[:scope] if ['older', 'newer'].include?(params[:scope])
+      end
+
       def current_user_notifications
         current_user.notifly_notifications.not_only_mail
       end
 
       def count_unseen
         current_user_notifications.unseen.count
+      end
+
+      def notifications_between
+        current_user_notifications.between(params[:first_notification_id],
+          params[:last_notification_id])
       end
   end
 end

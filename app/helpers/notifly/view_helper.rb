@@ -13,11 +13,5 @@ module Notifly
       size = Notifly.icon_size
       fa_icon "#{icon} #{size}"
     end
-
-    def link_to_next_page(page, text, options={})
-      last_notification_from_page = page.last
-      link_to text, notifications_path(current_notification_id: last_notification_from_page.id),
-        options
-    end
   end
 end

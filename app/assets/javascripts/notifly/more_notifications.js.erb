@@ -1,0 +1,23 @@
+<% notifly = Notifly::Engine.routes.url_helpers %>
+
+var _notiflyMoreNotifications = function () {
+  var $notifly = $('#notifly');
+
+  if($notifly != undefined) {
+    $notifly.find('#notifly-more-notifications-link').click(function () {
+      $.ajax({
+        url: '<%= notifly.notifications_path %>',
+        data: {
+          scope: 'older',
+          reference_notification_id: notiflyLastNotification,
+          mark_as_seen: $notifly.hasClass('open')
+        },
+        type: 'GET'
+      });
+    });
+  }
+};
+
+$(document).ready(function() {
+  _notiflyMoreNotifications();
+});

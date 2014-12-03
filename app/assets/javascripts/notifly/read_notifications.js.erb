@@ -1,0 +1,22 @@
+<% notifly = Notifly::Engine.routes.url_helpers %>
+
+var _notiflyReadNotifications = function () {
+  var $notifly = $('#notifly-mark-as-read-link');
+
+  if($notifly != undefined) {
+    $notifly.click(function () {
+      $.ajax({
+        url: '<%= notifly.read_notifications_path %>',
+        data: {
+          first_notification_id: notiflyFirstNotification,
+          last_notification_id: notiflyLastNotification
+        },
+        type: 'PUT'
+      });
+    });
+  }
+};
+
+$(document).ready(function() {
+  _notiflyReadNotifications();
+});

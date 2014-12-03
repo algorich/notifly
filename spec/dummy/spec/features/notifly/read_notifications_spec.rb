@@ -14,8 +14,8 @@ describe 'Read notification', :type => :feature, js: true do
   end
 
   def open_notifly
-    visit root_path
-    wait_for_ajax { find('#notifly-icon').click }
+    wait_for_ajax { visit root_path }
+    find('#notifly-icon').click
   end
 
   context 'when read a specific notification' do

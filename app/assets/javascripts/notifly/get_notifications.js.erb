@@ -1,24 +1,25 @@
 <% notifly = Notifly::Engine.routes.url_helpers %>
-var notiflyNotificationsRequested;
+var notiflyLastNotification, notiflyFirstNotification;
 
 var _notiflyGetNotifications = function () {
-  var $notifly = $('#notifly-icon');
+  var $notifly = $('#notifly');
 
-  $notifly.click(function () {
-    if (!notiflyNotificationsRequested) {
-      notiflyNotificationsRequested = true;
-
-      $.ajax({
-        url: '<%= notifly.notifications_path %>',
-        type: 'GET',
-        error: _notiflyHandleNotificationsError
-      });
-    }
-  });
+  if($notifly !== undefined) {
+    $.ajax({
+      url: '<%= notifly.notifications_path %>',
+      data: {
+        scope: 'newer',
+        reference_notification_id: notiflyFirstNotification || null,
+        mark_as_seen: $notifly.hasClass('open')
+      },
+      type: 'GET',
+      complete: _notiflyRepeatRequest
+    });
+  }
 };
 
-var _notiflyHandleNotificationsError = function () {
-  notiflyNotificationsRequested = false;
+var _notiflyRepeatRequest = function () {
+  setTimeout(_notiflyGetNotifications, <%= Notifly.timeout %>);
 };
 
 $(document).ready(function() {

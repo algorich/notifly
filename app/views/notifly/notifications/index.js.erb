@@ -1,20 +1,25 @@
-<%
-  rendered_notifications = render partial: 'notifly/layouts/index',
-    locals: { notifications: @notifications }
+<% rendered_notifications = render partial: 'notifly/layouts/index',
+  locals: { notifications: @notifications } %>
 
-  page = { current_notification_id: @notifications.last.id }
-  rendered_header_actions = link_to 'Mark as read', read_specific_notifications_path(page),
-    remote: true, method: :put
+<% if @notifications.any? %>
+  $('#notifly-notifications-content .loading').remove();
 
-  rendered_footer = render partial: 'notifly/layouts/footer',
-    locals: { notifications: @notifications }
-%>
+  <% if @scope_param == 'older' %>
+    $('#notifly-notifications-content').append("<%= j rendered_notifications %>");
 
-$('#notifly-header-actions').html("<%=  j rendered_header_actions %>");
+    notiflyLastNotification = <%= @notifications.last.id %>;
 
-$('#notifly-notifications-content .loading').remove();
-$('#notifly-notifications-content').append("<%= j rendered_notifications %>");
-$('#notifly-notifications-footer').html("<%= j rendered_footer %>");
+  <% else %>
+
+    $('#notifly-notifications-content').prepend("<%= j rendered_notifications %>");
+
+    notiflyFirstNotification = <%= @notifications.first.id %>;
+
+    if (notiflyLastNotification == undefined)
+      notiflyLastNotification = <%= @notifications.last.id %>;
+
+  <% end %>
+<% end %>
 
 $('#notifly-counter').html("<%= j(render 'notifly/layouts/counter', counter: @counter)%>");
 $('#notifly-icon').html("<%= j notifly_icon(@counter > 0) %>")

@@ -9,7 +9,7 @@ describe 'Loading notifications', :type => :feature, js: true do
     2.times { notification_with_mail(:only) }  # are not in a page
     9.times { notification_with_mail(:never) } # page 1
 
-    visit root_path
+    wait_for_ajax { visit root_path }
   end
 
   def notification_with_mail(occurrence)
@@ -17,30 +17,31 @@ describe 'Loading notifications', :type => :feature, js: true do
       read: false, mail: occurrence
   end
 
-  scenario 'loading notifications in at the user click' do
+  scenario 'visiting page' do
     within("#notifly") do
-      expect(page).to_not have_css('div.notifly-notification', visible: false)
+      expect(page).to have_css('div.notifly-notification', count: 10, visible: false)
     end
 
-    wait_for_ajax { find('#notifly-icon').click }
+    find('#notifly-icon').click
 
     within('#notifly') do
-      expect(page).to have_css('div.notifly-notification', count: 10, visible: false)
+      expect(page).to have_css('div.notifly-notification', count: 10, visible: true)
     end
   end
 
   scenario 'loading next page link' do
-    href_with_page = notifly.notifications_path(current_notification_id: @last_notification_from_page.id)
-    wait_for_ajax { find('#notifly-icon').click }
+    skip 'need remove link'
+    find('#notifly-icon').click
+
     within('#notifly-notifications-footer') do
-      expect(page).to have_xpath("//a[@href=\"#{href_with_page}\"]")
+      expect(page).to have_link('More')
     end
 
     click_ajax_link 'More'
 
-    expect(page).to have_css('div.notifly-notification', count: 13, visible: false)
+    expect(page).to have_css('div.notifly-notification', count: 13, visible: true)
     within('#notifly-notifications-footer') do
-      expect(page).to_not have_xpath("//a[@href=\"#{href_with_page}\"]")
+      expect(page).to_not have_link('More')
     end
   end
 end
