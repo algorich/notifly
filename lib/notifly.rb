@@ -20,7 +20,7 @@ module Notifly
   @@mailer_sender = 'change-me-at-config-initializers-notifly@exemple.com'
 
   mattr_accessor :timeout
-  @@timeout = 5000
+  @@timeout = 10000
 
   # Default way to setup Notifly. Run rails generate notifly:install to create
   # a fresh initializer with all configuration values.
