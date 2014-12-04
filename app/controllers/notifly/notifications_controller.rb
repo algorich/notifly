@@ -2,21 +2,19 @@ require_dependency "notifly/application_controller"
 
 module Notifly
   class NotificationsController < ApplicationController
-    def counter
-      @counter = count_unseen
-    end
-
     def index
-      @notifications = current_user_notifications.page(params[:page]).per(Notifly.per_page)
-      Notifly::Notification.where(id: @notifications.map(&:id)).update_all(seen: true)
+      @notifications = scoped_notifications
+      @notifications.update_all(seen: true) if params[:mark_as_seen] == 'true'
+
       @counter = count_unseen
+      @scope_param = scope_param
     end
 
-
-    def read_specific
-      size = params[:pages].to_i * Notifly.per_page
-      @notifications = current_user_notifications.limit(size)
-      @notifications.update_all read: true
+    def read
+      if params[:first_notification_id].present? and params[:last_notification_id].present?
+        @notifications = notifications_between
+        @notifications.update_all(read: true)
+      end
     end
 
     def toggle_read
@@ -24,13 +22,34 @@ module Notifly
       @notification.update(read: !@notification.read)
     end
 
+    def seen
+      if params[:first_notification_id].present? and params[:last_notification_id].present?
+        @notifications = notifications_between
+        @notifications.update_all(seen: true)
+      end
+      @counter = count_unseen
+    end
+
     private
+      def scoped_notifications
+        current_user_notifications.send(scope_param, than: params[:reference_notification_id])
+      end
+
+      def scope_param
+        return params[:scope] if ['older', 'newer'].include?(params[:scope])
+      end
+
       def current_user_notifications
-        Notifly::Notification.all_from(current_user).order('created_at DESC')
+        current_user.notifly_notifications.not_only_mail
       end
 
       def count_unseen
-        Notifly::Notification.unseen_from(current_user).count
+        current_user_notifications.unseen.count
+      end
+
+      def notifications_between
+        current_user_notifications.between(params[:first_notification_id],
+          params[:last_notification_id])
       end
   end
 end

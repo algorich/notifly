@@ -91,11 +91,20 @@ module Notifly
 
       def _create_notification_for(fly)
         new_fly = _default_fly.merge(fly)
-        Notifly::Notification.create! _get_attributes_from(new_fly)
+        notification = Notifly::Notification.create _get_attributes_from(new_fly)
+
+        if new_fly.mail.present?
+          template = new_fly.mail.try(:fetch, :template) || notification.template
+
+          Notifly::NotificationMailer.notifly to: self.email, template: template,
+            notification_id: notification.id
+        end
+      rescue => e
+        logger.error "Something goes wrong with Notifly, will ignore: #{e}"
       end
 
-      def notifly_notifications(options={})
-        Notifly::Notification.where(receiver: self)
+      def notifly_notifications
+        Notifly::Notification.all_from(self)
       end
 
       private
@@ -114,7 +123,7 @@ module Notifly
         end
 
         def _eval_for(key, value)
-          if key.to_sym == :template
+          if [:template, :mail].include? key.to_sym
             value
           elsif value == :self
             self

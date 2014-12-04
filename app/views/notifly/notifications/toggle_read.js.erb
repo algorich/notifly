@@ -2,4 +2,4 @@
   locals: { notification: @notification } %>
 
 $('<%= "#notifly-notification-#{@notification.id}" %>')
-  .replaceWith('<%= escape_javascript rendered_notification %>')
+  .replaceWith('<%= j rendered_notification %>')

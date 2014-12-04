@@ -3,9 +3,8 @@ Notifly::Engine.routes.draw do
     put :toggle_read
 
     collection do
-      get :counter
-      put :update_counter
-      put :read_specific
+      put :read
+      put :seen
     end
   end
 end

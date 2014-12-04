@@ -6,10 +6,31 @@ module Notifly
 
     before_validation :convert_data, :set_template
 
-    scope :all_from,    ->(receiver) { where(receiver: receiver) }
-    scope :unseen_from, ->(receiver) { where(receiver: receiver, seen: false) }
+    scope :all_from,      -> (receiver) { where(receiver: receiver) }
+    scope :unseen,        -> { where(seen: false) }
+    scope :not_only_mail, -> { where.not(mail: 'only') }
+    scope :limited,       -> { limit(Notifly.per_page) }
+    scope :ordered,       -> { order('created_at DESC') }
+    scope :newer,         ->(than: nil) do
+      return ordered.limited if than.blank?
 
-    validates :receiver, :template, presence: true
+      reference = find(than)
+      ordered.where('created_at > ?', reference.created_at).where.not(id: reference)
+    end
+    scope :older,         ->(than: nil) do
+      reference = find(than)
+
+      ordered.
+      where('created_at < ?', reference.created_at).
+      where.not(id: reference).
+      limited
+    end
+    scope :between,       ->(first, last) do
+      notifications = where(id: [first, last])
+      where(created_at: (notifications.first.created_at..notifications.last.created_at))
+    end
+
+    validates :receiver, :template, :mail, presence: true
 
     def data
       YAML.load(read_attribute(:data))

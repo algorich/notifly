@@ -12,7 +12,7 @@ RSpec.configure do |config|
 
   config.mock_with :rspec do |mocks|
     mocks.syntax = :expect
-    mocks.verify_partial_doubles = true
+    mocks.verify_partial_doubles = false
   end
 
 # The settings below are suggested to provide a good initial experience

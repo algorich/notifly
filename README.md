@@ -1,4 +1,5 @@
-# Notifly [![Build Status](https://travis-ci.org/algorich/notifly.svg?branch=master)](https://travis-ci.org/algorich/notifly) [![Dependency Status](https://gemnasium.com/algorich/notifly.svg)](https://gemnasium.com/algorich/notifly)
+# Notifly
+[![Build Status](https://travis-ci.org/algorich/notifly.svg?branch=master)](https://travis-ci.org/algorich/notifly) [![Gem Version](https://badge.fury.io/rb/notifly.svg)](http://badge.fury.io/rb/notifly) [![Dependency Status](https://gemnasium.com/algorich/notifly.svg)](https://gemnasium.com/algorich/notifly)
 
 This project is still under development and it intend to offer a full notification
 system, back and front-end. Questions and suggestions are welcome and you can
@@ -48,7 +49,7 @@ Notifly **need** to storage the notifications and to do it you need to run the m
 
 We have two ways to create notifications:
 
-#### 1. Using `#notifly` method in your classes (as callback)
+### Using `#notifly` method in your classes (as callback)
 
 If you want to create notifications after (or before) **any** method call.
 
@@ -90,7 +91,7 @@ notiflies and set the values to all notiflies. If you need to overwrite some
 default value, just declare it again like the `:accept_gift` notifly above.
 
 
-#### Using `#notifly!` method on your receiver object
+### Using `#notifly!` method on your receiver object
 
 If you need to create notifications without callbacks, even in the
 controller scope.
@@ -123,11 +124,60 @@ end
 
 The receiver will be always the object which you call `#notifly!`
 
+### Mail
+
+Notifly can send mails too. To do it, just add the option `mail` to your notifly
+statement
+
+```ruby
+class TicketOrder < ActiveRecord::Base
+  belongs_to :ticket
+  belongs_to :buyer
+  belongs_to :owner
+
+  notifly default_values: { receiver: :owner }
+
+  notifly before: :destroy, template: :destroy_order_notification, sender: :buyer,
+    data: :attributes, email: { template: :destroy_order_mail }
+  notifly after: :send_gift!, template: :ticket_gift, sender: :buyer,
+    target: :ticket, email: true, if: -> { completed? }
+  notifly after: :accept_gift, sender: :owner, receiver: :buyer, target: :ticket,
+    template: :accept_gift, email: { only: true }
+
+  def send_gift!
+    # code here
+  end
+
+  def accept_gift
+    # code here
+  end
+end
+```
+
+| Email                        | Description |
+| ---------------------------- | ----------- |
+| `true`                       | send email and notification using notifly template |
+| `only: true`                 | send only an email using notifly template |
+| `template: :foo`             | send email using `foo` mail template and a notification using notifly template |
+
+Notiflies with `mail: { only: true }` will persist notifications, but them won't
+be in receivers notifications views. If you use [delayed_job](https://github.com/collectiveidea/delayed_job)
+or [sidekiq](https://github.com/mperham/sidekiq) mails will be sent async.
+
+### Notifications access
+
 You can access the notifications using the following methods:
 
-  - `receiver_object.notiflies`
+  - `receiver_object.notifly_notifications`
   - Querying `Notifly::Notifications`
   - Using our front-end helpers
+
+#### Useful scopes
+
+  - all_from: used on `Notifly::Notifications` to show notifications from a specific receiver
+  - unseen: used on `Notifly::Notifications` and `#notifly_notifications` to show **only** unseen notifications
+  - not_only-mail: used on `Notifly::Notifications` and `#notifly_notifications` to remove notification that are **mail only**
+
 
 ## Front-end
 
@@ -156,17 +206,29 @@ This will inject our views and it will be like that
 
 ![image](http://upl.io/i/4i26o3.png)
 
-As you can see, notifications are rendered with their templates. It uses a simple
-default template but if you want to change it or create new ones run the code below
-or create them in `app/views/notifly/templates/_your_template.html.erb`
+Notifications and Mails are rendered with their templates. They use a simple default
+template but if you want to change or create new ones run the generate below
+with the option that you want or create them in `app/views/notifly/templates/`.
+Remember that notifications templates should be in `notifications` folder and
+mails templates in `mails` folder.
 
 ```shell
   $ rails generate notifly:views
 ```
 
-Now if you want to customize the layout, just generate it adding the option `--layout`
-to the code above and change it as you want. But if you already have a layout and just
-want add our features to it, take a look at [Adapting your layout](#adapting).
+| Option           | Description |
+| ---------------- | ----------- |
+| `--notification` | generates notifications templates files |
+| `--layout`       | generates layout files |
+| `--mail`         | generates mail templates files |
+
+If you already have a layout and just want add our features to it, take a look
+at [Adapting your layout](#adapting).
+
+### I18n
+
+Notifly uses I18n to render the mail's subject and if you run the install generator
+you can change it in `config/locales/notifly.en.yaml` or create your own.
 
 ### <a name='adapting'></a> Adapting your layout
 
@@ -188,13 +250,14 @@ Above are the elements that will loading the Notifly in your layout
     this element will contain all notifications (`_notification.html.erb`) rendered
     by `_index.html.erb`
   - **Next page link**: this link will append the next notifications page to the
-    `#notifly-notifications-container`, this is rendered by `_footer.html.erb` and
-    will be injected in `#notifly-notifications-footer`
+    `#notifly-notifications-container`, it should be in the page and should have
+    the id `#notifly-more-notifications-link`. This link should not have a href.
+  - **Mark as read**: this link will mark all notifications in the page as read,
+    it should be in the page and should have the id `#notifly-mark-as-read-link`.
+    This link should not have a href.
   - **Loading**: html element that will be showing while the notifications request
     isn't completed. It should be in `#notifly-notifications-container` and should
     have the class `loading`
-  - **Mark as read**: this link will mark all notifications in the page as read,
-    it will be rendered in `#notifly-header-actions`
   - **Toggle read**: this link will be rendered by `_actions.html.erb' in
     `_notification.html.erb`
 
