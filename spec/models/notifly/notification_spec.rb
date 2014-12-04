@@ -63,21 +63,22 @@ module Notifly
         let(:page_1) { [ ] }
         let(:page_2) { [ ] }
         let(:page_3) { [ ] }
-        let(:last_notification_from_page_2) { simple_notification }
-        let(:last_notification_from_page_1) { simple_notification }
 
         before(:each) do
+          page_3 << @last_notification_from_page_3 = simple_notification
           3.times { page_3 << simple_notification }
-          page_2 << last_notification_from_page_2
+          page_2 << @last_notification_from_page_2 = simple_notification
           3.times { page_2 << simple_notification }
-          page_1 << last_notification_from_page_1
+          page_1 << @last_notification_from_page_1 = simple_notification
           3.times { page_1 << simple_notification }
         end
 
-        it { expect(Notifly::Notification.older than: last_notification_from_page_1.id).
+        it { expect(Notifly::Notification.older than: @last_notification_from_page_1.id).
           to match_array page_2 }
-        it { expect(Notifly::Notification.older than: last_notification_from_page_2.id).
+        it { expect(Notifly::Notification.older than: @last_notification_from_page_2.id).
           to match_array page_3 }
+        it { expect(Notifly::Notification.older than: @last_notification_from_page_3.id).
+          to match_array [] }
       end
     end
     end

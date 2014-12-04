@@ -1,47 +1,61 @@
 require 'rails_helper'
 
 describe 'Loading notifications', :type => :feature, js: true do
-  before(:each) do
-    @receiver = DummyObject.create! name: 'User'
-    3.times { notification_with_mail(:always) } # page 2 with the last 3
-    @last_notification_from_page = notification_with_mail(:always) # page 1
 
-    2.times { notification_with_mail(:only) }  # are not in a page
-    9.times { notification_with_mail(:never) } # page 1
+  before(:each) { @receiver = DummyObject.create! name: 'User' }
 
-    wait_for_ajax { visit root_path }
-  end
+  context 'when have notifications' do
+    before(:each) do
+      3.times { notification_with_mail(:always) } # page 2 with the last 3
+      @last_notification_from_page = notification_with_mail(:always) # page 1
 
-  def notification_with_mail(occurrence)
-    Notifly::Notification.create! receiver: @receiver, template: :default,
-      read: false, mail: occurrence
-  end
+      2.times { notification_with_mail(:only) }  # are not in a page
+      9.times { notification_with_mail(:never) } # page 1
 
-  scenario 'visiting page' do
-    within("#notifly") do
-      expect(page).to have_css('div.notifly-notification', count: 10, visible: false)
+      wait_for_ajax { visit root_path }
     end
 
-    find('#notifly-icon').click
+    def notification_with_mail(occurrence)
+      Notifly::Notification.create! receiver: @receiver, template: :default,
+        read: false, mail: occurrence
+    end
 
-    within('#notifly') do
-      expect(page).to have_css('div.notifly-notification', count: 10, visible: true)
+    scenario 'visiting page' do
+      within("#notifly") do
+        expect(page).to have_css('div.notifly-notification', count: 10, visible: false)
+      end
+
+      wait_for_ajax { find('#notifly-icon').click }
+
+      within('#notifly') do
+        expect(page).to have_css('div.notifly-notification', count: 10, visible: true)
+      end
+    end
+
+    scenario 'loading next page link' do
+      wait_for_ajax { find('#notifly-icon').click }
+
+      within('#notifly-notifications-footer') do
+        expect(page).to have_link('More')
+      end
+
+      click_ajax_link 'More'
+
+      expect(page).to have_css('div.notifly-notification', count: 13, visible: true)
+      within('#notifly-notifications-footer') do
+        expect(page).to_not have_link('More')
+      end
     end
   end
 
-  scenario 'loading next page link' do
-    skip 'need remove link'
-    find('#notifly-icon').click
+  context 'when none notifications' do
+    scenario 'loading next page link' do
+      wait_for_ajax { visit root_path }
+      wait_for_ajax { find('#notifly-icon').click }
 
-    within('#notifly-notifications-footer') do
-      expect(page).to have_link('More')
-    end
-
-    click_ajax_link 'More'
-
-    expect(page).to have_css('div.notifly-notification', count: 13, visible: true)
-    within('#notifly-notifications-footer') do
-      expect(page).to_not have_link('More')
+      within('#notifly-notifications-footer') do
+        expect(page).to_not have_link('More')
+      end
     end
   end
 end

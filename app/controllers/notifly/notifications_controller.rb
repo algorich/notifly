@@ -11,8 +11,10 @@ module Notifly
     end
 
     def read
-      @notifications = notifications_between
-      @notifications.update_all(read: true)
+      if params[:first_notification_id].present? and params[:last_notification_id].present?
+        @notifications = notifications_between
+        @notifications.update_all(read: true)
+      end
     end
 
     def toggle_read
@@ -21,8 +23,10 @@ module Notifly
     end
 
     def seen
-      @notifications = notifications_between
-      @notifications.update_all(seen: true)
+      if params[:first_notification_id].present? and params[:last_notification_id].present?
+        @notifications = notifications_between
+        @notifications.update_all(seen: true)
+      end
       @counter = count_unseen
     end
 

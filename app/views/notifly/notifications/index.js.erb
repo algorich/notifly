@@ -1,24 +1,32 @@
 <% rendered_notifications = render partial: 'notifly/layouts/index',
   locals: { notifications: @notifications } %>
+<% last_notification = @notifications.last.try(:id) %>
+<% first_notification = @notifications.first.try(:id) %>
 
 <% if @notifications.any? %>
   $('#notifly-notifications-content .loading').remove();
 
   <% if @scope_param == 'older' %>
     $('#notifly-notifications-content').append("<%= j rendered_notifications %>");
-
-    notiflyLastNotification = <%= @notifications.last.id %>;
+    notiflyLastNotification = <%= last_notification %>;
 
   <% else %>
-
     $('#notifly-notifications-content').prepend("<%= j rendered_notifications %>");
-
-    notiflyFirstNotification = <%= @notifications.first.id %>;
+    notiflyFirstNotification = <%= first_notification %>;
 
     if (notiflyLastNotification == undefined)
-      notiflyLastNotification = <%= @notifications.last.id %>;
+      notiflyLastNotification = <%= last_notification %>;
 
   <% end %>
+
+<% else %>
+    if (notiflyLastNotification == undefined)
+      $('#notifly-more-notifications-link').remove();
+
+<% end %>
+
+<% if @scope_param == 'older' and Notifly::Notification.older(than: last_notification).blank? %>
+  $('#notifly-more-notifications-link').remove();
 <% end %>
 
 $('#notifly-counter').html("<%= j(render 'notifly/layouts/counter', counter: @counter)%>");
