@@ -250,13 +250,14 @@ Above are the elements that will loading the Notifly in your layout
     this element will contain all notifications (`_notification.html.erb`) rendered
     by `_index.html.erb`
   - **Next page link**: this link will append the next notifications page to the
-    `#notifly-notifications-container`, this is rendered by `_footer.html.erb` and
-    will be injected in `#notifly-notifications-footer`
+    `#notifly-notifications-container`, it should be in the page and should have
+    the id `#notifly-more-notifications-link`. This link should not have a href.
+  - **Mark as read**: this link will mark all notifications in the page as read,
+    it should be in the page and should have the id `#notifly-mark-as-read-link`.
+    This link should not have a href.
   - **Loading**: html element that will be showing while the notifications request
     isn't completed. It should be in `#notifly-notifications-container` and should
     have the class `loading`
-  - **Mark as read**: this link will mark all notifications in the page as read,
-    it will be rendered in `#notifly-header-actions`
   - **Toggle read**: this link will be rendered by `_actions.html.erb' in
     `_notification.html.erb`
 
