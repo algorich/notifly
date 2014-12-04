@@ -138,11 +138,11 @@ class TicketOrder < ActiveRecord::Base
   notifly default_values: { receiver: :owner }
 
   notifly before: :destroy, template: :destroy_order_notification, sender: :buyer,
-    data: :attributes, email: { template: :destroy_order_mail }
+    data: :attributes, mail: { template: :destroy_order_mail }
   notifly after: :send_gift!, template: :ticket_gift, sender: :buyer,
-    target: :ticket, email: true, if: -> { completed? }
+    target: :ticket, mail: true, if: -> { completed? }
   notifly after: :accept_gift, sender: :owner, receiver: :buyer, target: :ticket,
-    template: :accept_gift, email: { only: true }
+    template: :accept_gift, mail: { only: true }
 
   def send_gift!
     # code here
