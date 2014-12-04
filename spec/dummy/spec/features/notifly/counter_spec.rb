@@ -21,7 +21,7 @@ describe 'Notifly counter', :type => :feature, js: true do
   end
 
   scenario 'seeing notifications' do
-    visit root_path
+    wait_for_ajax { visit root_path }
     within("#notifly-counter") do
       expect(page).to have_content '3'
     end
@@ -42,7 +42,7 @@ describe 'Notifly counter', :type => :feature, js: true do
   context 'when notification is mail only' do
     scenario 'seeing only notifications without mail only' do
       notification.create! receiver: receiver, seen: false, read: false, mail: :only
-      visit root_path
+      wait_for_ajax { visit root_path }
 
       within("#notifly-counter") do
         expect(page).to_not have_content '4'
