@@ -1,9 +1,9 @@
 <% notifly = Notifly::Engine.routes.url_helpers %>
 
 var _notiflyMoreNotifications = function () {
-  var $notifly = $('#notifly');
+  var $notifly = $('#notifly-notifications-content');
 
-  if($notifly != undefined) {
+  if($notifly.lenght !== 0) {
     $notifly.find('#notifly-more-notifications-link').click(function () {
       $.ajax({
         url: '<%= notifly.notifications_path %>',

@@ -3,7 +3,7 @@
 var _notiflySeenNotifications = function () {
   var $trigger = $('#notifly-trigger');
 
-  if($trigger !== undefined) {
+  if($trigger.lenght !== 0) {
     $trigger.click(function () {
       $.ajax({
         url: '<%= notifly.seen_notifications_path %>',
