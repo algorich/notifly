@@ -103,7 +103,7 @@ class TicketOrder < ActiveRecord::Base
   belongs_to :owner
 
   before_destroy do
-    owner.notifly! template: :destroy, sender: buyer, data: :attributes
+    owner.notifly! template: :destroy, sender: buyer, data: attributes
   end
 
   def send_gift!
