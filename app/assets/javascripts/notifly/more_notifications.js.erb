@@ -4,13 +4,13 @@ var _notiflyMoreNotifications = function () {
   var $notifly = $('#notifly-notifications-content');
 
   if($notifly.length !== 0) {
-    $notifly.find('#notifly-more-notifications-link').click(function () {
+    $('#notifly-more-notifications-link').click(function () {
       $.ajax({
         url: '<%= notifly.notifications_path %>',
         data: {
           scope: 'older',
           reference_notification_id: notiflyLastNotification,
-          mark_as_seen: $notifly.hasClass('open')
+          mark_as_seen: true
         },
         type: 'GET'
       });

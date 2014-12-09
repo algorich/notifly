@@ -11,4 +11,5 @@
 // about supported directives.
 //
 //= require notifly
+//= require notifly_dropdown
 //= require_tree .

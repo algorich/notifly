@@ -34,8 +34,8 @@ describe 'Notifly counter', :type => :feature, js: true do
 
     click_ajax_link 'More'
 
-    within("#notifly-counter") do
-      expect(page).to_not have_content '1'
+    within("#notifly-counter", visible: false) do
+      expect(page).to have_content '0'
     end
   end
 
