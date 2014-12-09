@@ -4,7 +4,7 @@ var notiflyLastNotification, notiflyFirstNotification;
 var _notiflyGetNotifications = function () {
   var $notifly = $('#notifly');
 
-  if($notifly.lenght !== 0) {
+  if($notifly.length !== 0) {
     $.ajax({
       url: '<%= notifly.notifications_path %>',
       data: {

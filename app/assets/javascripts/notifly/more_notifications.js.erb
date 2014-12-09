@@ -3,7 +3,7 @@
 var _notiflyMoreNotifications = function () {
   var $notifly = $('#notifly-notifications-content');
 
-  if($notifly.lenght !== 0) {
+  if($notifly.length !== 0) {
     $notifly.find('#notifly-more-notifications-link').click(function () {
       $.ajax({
         url: '<%= notifly.notifications_path %>',

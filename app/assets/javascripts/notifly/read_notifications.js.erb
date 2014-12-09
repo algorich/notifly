@@ -3,7 +3,7 @@
 var _notiflyReadNotifications = function () {
   var $notifly = $('#notifly-mark-as-read-link');
 
-  if($notifly.lenght !== 0) {
+  if($notifly.length !== 0) {
     $notifly.click(function () {
       $.ajax({
         url: '<%= notifly.read_notifications_path %>',
