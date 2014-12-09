@@ -103,21 +103,21 @@ class TicketOrder < ActiveRecord::Base
   belongs_to :owner
 
   before_destroy do
-    owner.notifly! template: :destroy, sender: :buyer, data: :attributes
+    owner.notifly! template: :destroy, sender: buyer, data: attributes
   end
 
   def send_gift!
     # code here
 
     if completed?
-      owner.notifly! template: :ticket_gift, sender: :buyer, target: :ticket
+      owner.notifly! template: :ticket_gift, sender: buyer, target: ticket
     end
   end
 
   def accept_gift
     # code here
 
-    buyer.notifly! sender: :owner, target: :ticket
+    buyer.notifly! sender: owner, target: ticket
   end
 end
 ```
