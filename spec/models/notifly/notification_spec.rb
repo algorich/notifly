@@ -2,8 +2,21 @@ require 'rails_helper'
 
 module Notifly
   RSpec.describe Notification, :type => :model do
-    it { is_expected.to validate_presence_of(:receiver) }
-    it { is_expected.to validate_presence_of(:mail) }
+    describe 'validations' do
+      it { is_expected.to validate_presence_of(:receiver) }
+      it 'should validates presence of template' do
+        is_expected.to_not validate_presence_of(:template)
+
+        allow_any_instance_of(Notification).to receive(:set_template) { nil }
+        is_expected.to validate_presence_of(:template)
+      end
+      it 'should validates presence of mail' do
+        is_expected.to_not validate_presence_of(:mail)
+
+        allow_any_instance_of(Notification).to receive(:set_mail) { nil }
+        is_expected.to validate_presence_of(:mail)
+      end
+    end
 
     describe '#data' do
       it 'should save and repond with a hash' do
@@ -81,5 +94,5 @@ module Notifly
           to match_array [] }
       end
     end
-    end
+  end
 end

@@ -4,7 +4,7 @@ module Notifly
     belongs_to :sender, polymorphic: true
     belongs_to :receiver, polymorphic: true
 
-    before_validation :convert_data, :set_template
+    before_validation :convert_data, :set_template, :set_mail
 
     scope :all_from,      -> (receiver) { where(receiver: receiver) }
     scope :unseen,        -> { where(seen: false) }
@@ -43,6 +43,10 @@ module Notifly
 
       def set_template
         self.template ||= :default
+      end
+
+      def set_mail
+        self.mail ||= :never
       end
   end
 end
