@@ -161,7 +161,8 @@ end
 | `template: :foo`             | send email using `foo` mail template and a notification using notifly template |
 
 Notiflies with `mail: { only: true }` will persist notifications, but them won't
-be in receivers notifications views. If you use [delayed_job](https://github.com/collectiveidea/delayed_job)
+be in receivers notifications views. If you use
+[delayed_job](https://github.com/collectiveidea/delayed_job)
 or [sidekiq](https://github.com/mperham/sidekiq) mails will be sent async.
 
 ### Notifications access
@@ -181,14 +182,32 @@ You can access the notifications using the following methods:
 
 ## Front-end
 
-First, you need to have a `current_user` in `ApplicationController`, if you use
-[Devise](https://github.com/plataformatec/devise) it is already there.
+First, you need to have a `current_user`, if you use
+[Devise](https://github.com/plataformatec/devise) maybe it is already there. If you
+haven't a `current_user`, just define a method in `ApplicationController` and
+add it to the helpers methods. Your controller should look like this:
 
-After that you need our assets, add them to your `application.js`
+```ruby
+class ApplicationController < ActionController::Base
+  def current_user
+    current_talker
+  end
+
+  ActiveSupport.on_load(:action_controller) do
+    helper_method :current_user
+  end
+end
+``
+
+After that you need our assets, add them to your `application.js` and `application.css`.
 
 ```javascript
 //= require notifly
 ```
+
+The `notifly` contain the code to do all requests and notifications injection, if
+you do not use [Twitter bootstrap](http://getbootstrap.com/) you will need
+to add `//= notifly_dropdown` to the code above.
 
 ```css
 /*
@@ -206,11 +225,7 @@ This will inject our views and it will be like that
 
 ![image](http://upl.io/i/4i26o3.png)
 
-Notifications and Mails are rendered with their templates. They use a simple default
-template but if you want to change or create new ones run the generate below
-with the option that you want or create them in `app/views/notifly/templates/`.
-Remember that notifications templates should be in `notifications` folder and
-mails templates in `mails` folder.
+If you want to change something just use the code below
 
 ```shell
   $ rails generate notifly:views
@@ -221,6 +236,12 @@ mails templates in `mails` folder.
 | `--notification` | generates notifications templates files |
 | `--layout`       | generates layout files |
 | `--mail`         | generates mail templates files |
+
+Notifications and Mails are rendered with their templates. They use a simple default
+template but if you want to change or create new ones run the generate above
+with the option that you want or create them in `app/views/notifly/templates/`.
+Remember that notifications templates should be in `notifications` folder and
+mails templates in `mails` folder.
 
 If you already have a layout and just want add our features to it, take a look
 at [Adapting your layout](#adapting).
@@ -235,11 +256,11 @@ you can change it in `config/locales/notifly.en.yaml` or create your own.
 All partials that we insert in your layout are in the gem or if you generated them,
 they will be in `app/views/notifly/layouts/`
 
-Above are the elements that will loading the Notifly in your layout
+Below are the elements that will loading the Notifly in your layout
 
   - **Counter**: this element will show how many notifications are not seen. It
-    should have the id `#notifly-counter`, and the html rendered in will be
-    the `_counter.html.erb`
+    should have the id `#notifly-counter`, and it will be replaced by the
+    `_counter.html.erb`
   - **Notifications icon**: this element is the trigger to load the notifications
     and you should have an icon to show when the user "have notifications" and
     "do not have notifications" this element should have the id `#notifly-icon`. The
@@ -260,6 +281,10 @@ Above are the elements that will loading the Notifly in your layout
     have the class `loading`
   - **Toggle read**: this link will be rendered by `_actions.html.erb' in
     `_notification.html.erb`
+
+Those elements should be inside an element with id `#notifly` and the dropdown
+trigger should have the id `#notifly-trigger`. For more info and examples, just
+take a look at `_notifly.html.erb`
 
 # Contributing
 
