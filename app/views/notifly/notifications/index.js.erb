@@ -29,7 +29,7 @@ $('#notifly-notifications-content .notifly-empty').remove();
 
 <% end %>
 
-<% if @scope_param == 'older' and Notifly::Notification.older(than: last_notification).blank? %>
+<% if @scope_param == 'older' and @user.notifly_notifications.older(than: last_notification).blank? %>
   $('#notifly-more-notifications-link').remove();
 <% end %>
 

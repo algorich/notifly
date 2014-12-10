@@ -6,6 +6,9 @@ describe 'Loading notifications', :type => :feature, js: true do
 
   context 'when have notifications' do
     before(:each) do
+      Notifly::Notification.create! receiver: DummyObject.create!, template: :default,
+        read: false, seen: false
+
       3.times { notification_with_mail(:always) } # page 2 with the last 3
       @last_notification_from_page = notification_with_mail(:always) # page 1
 
@@ -34,6 +37,7 @@ describe 'Loading notifications', :type => :feature, js: true do
 
     scenario 'loading next page link' do
       wait_for_ajax { find('#notifly-icon').click }
+      expect(page).to have_css('div.notifly-notification', count: 10, visible: true)
 
       within('#notifly-notifications-footer') do
         expect(page).to have_link('More')
