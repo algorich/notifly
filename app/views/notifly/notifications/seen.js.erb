@@ -1,2 +1,3 @@
 $('#notifly-counter').replaceWith("<%= j(render 'notifly/layouts/counter', counter: @counter)%>");
-$('#notifly-icon').replaceWith("<%= j notifly_icon(@counter > 0) %>")
+$('#notifly-icon').replaceWith("<%= j notifly_icon(@counter > 0) %>");
+Tinycon.setBubble(<%= @counter %>);
