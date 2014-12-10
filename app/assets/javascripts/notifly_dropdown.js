@@ -1,1 +1,1 @@
-//= require 'twitter/bootstrap'
+//= require 'twitter/bootstrap/dropdown'
