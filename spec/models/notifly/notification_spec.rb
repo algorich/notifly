@@ -4,17 +4,26 @@ module Notifly
   RSpec.describe Notification, :type => :model do
     describe 'validations' do
       it { is_expected.to validate_presence_of(:receiver) }
+
       it 'should validates presence of template' do
         is_expected.to_not validate_presence_of(:template)
 
-        allow_any_instance_of(Notification).to receive(:set_template) { nil }
+        allow_any_instance_of(Notification).to receive(:set_defaults) { nil }
         is_expected.to validate_presence_of(:template)
       end
+
       it 'should validates presence of mail' do
         is_expected.to_not validate_presence_of(:mail)
 
-        allow_any_instance_of(Notification).to receive(:set_mail) { nil }
+        allow_any_instance_of(Notification).to receive(:set_defaults) { nil }
         is_expected.to validate_presence_of(:mail)
+      end
+
+      it 'should validates presence of kind' do
+        is_expected.to_not validate_presence_of(:kind)
+
+        allow_any_instance_of(Notification).to receive(:set_defaults) { nil }
+        is_expected.to validate_presence_of(:kind)
       end
     end
 

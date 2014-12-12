@@ -103,8 +103,8 @@ module Notifly
         logger.error "Something goes wrong with Notifly, will ignore: #{e}"
       end
 
-      def notifly_notifications
-        Notifly::Notification.all_from(self)
+      def notifly_notifications(kind = :notification)
+        Notifly::Notification.all_from(self).where(kind: kind)
       end
 
       private

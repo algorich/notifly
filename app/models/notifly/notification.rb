@@ -4,7 +4,7 @@ module Notifly
     belongs_to :sender, polymorphic: true
     belongs_to :receiver, polymorphic: true
 
-    before_validation :convert_data, :set_template, :set_mail
+    before_validation :convert_data, :set_defaults
 
     scope :all_from,      -> (receiver) { where(receiver: receiver) }
     scope :unseen,        -> { where(seen: false) }
@@ -30,7 +30,7 @@ module Notifly
       where(created_at: (notifications.first.created_at..notifications.last.created_at))
     end
 
-    validates :receiver, :template, :mail, presence: true
+    validates :receiver, :template, :mail, :kind, presence: true
 
     def data
       YAML.load(read_attribute(:data))
@@ -41,12 +41,10 @@ module Notifly
         self.data = read_attribute(:data).to_json
       end
 
-      def set_template
+      def set_defaults
+        self.mail     ||= :never
+        self.kind     ||= :notification
         self.template ||= :default
-      end
-
-      def set_mail
-        self.mail ||= :never
       end
   end
 end
