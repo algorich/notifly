@@ -103,8 +103,9 @@ module Notifly
         logger.error "Something goes wrong with Notifly, will ignore: #{e}"
       end
 
-      def notifly_notifications(kind = :notification)
-        Notifly::Notification.all_from(self).where(kind: kind)
+      def notifly_notifications(kind=nil)
+        notifications = Notifly::Notification.all_from(self)
+        kind.present? ? notifications.where(kind: kind) : notifications
       end
 
       private
@@ -123,7 +124,7 @@ module Notifly
         end
 
         def _eval_for(key, value)
-          if [:template, :mail].include? key.to_sym
+          if [:template, :mail, :kind].include? key.to_sym
             value
           elsif value == :self
             self

@@ -41,7 +41,7 @@ module Notifly
 
       def current_user_notifications
         @user = current_user
-        @user.notifly_notifications.not_only_mail
+        @user.notifly_notifications(:notification).not_only_mail
       end
 
       def count_unseen

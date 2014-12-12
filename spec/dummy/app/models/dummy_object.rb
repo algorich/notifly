@@ -15,6 +15,9 @@ class DummyObject < ActiveRecord::Base
 
   notifly after: :buzz, if: :is_smart?
 
+  notifly after: :test_kind, kind: :message
+  notifly after: :test_kind, kind: :feed
+
   def be_smart
     self.name = 'smart'
   end
@@ -25,5 +28,10 @@ class DummyObject < ActiveRecord::Base
 
   def is_smart?
     name == 'smart'
+  end
+
+  def test_kind
+    # code
+    true
   end
 end

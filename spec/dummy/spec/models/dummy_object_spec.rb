@@ -81,5 +81,31 @@ RSpec.describe DummyObject, :type => :model do
         expect(dummy.notifly_notifications.not_only_mail).to_not include notifications.take
       end
     end
+
+    context 'when using kind' do
+      let!(:dummy) { DummyObject.create name: nil, email: 'dummy@mail.com' }
+      let(:notifications) { Notifly::Notification }
+
+      before(:each) do
+        notifications.delete_all
+        emails_sent.clear
+      end
+
+      describe '#notifly_notifications' do
+        it 'should show notifications by kind' do
+          expect { dummy.test_kind }.to change { notifications.count }.by(2)
+
+          expect(dummy.notifly_notifications.count).to eql 2
+
+          expect(dummy.notifly_notifications(:message).count).to eql 1
+          expect(dummy.notifly_notifications(:message)).
+            to match_array notifications.where(receiver: dummy, kind: :message)
+
+          expect(dummy.notifly_notifications(:feed).count).to eql 1
+          expect(dummy.notifly_notifications(:feed)).
+            to match_array notifications.where(receiver: dummy, kind: :feed)
+        end
+      end
+    end
   end
 end

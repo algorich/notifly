@@ -3,7 +3,7 @@ module Notifly
     module Options
       class Fly
         attr_accessor :before, :after, :template, :sender, :receiver, :target,
-          :if, :unless, :data, :mail
+          :if, :unless, :data, :mail, :kind
 
         def initialize(options={})
           options = options.fetch(:default_values, options)
