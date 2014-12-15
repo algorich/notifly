@@ -16,6 +16,7 @@ In actual version, notifications are composed by:
   - Read: flag that records if the receiver read the notification
   - Seen: flag that records if the receiver seen the notification
   - If and Unless: used to create notifications conditionally
+  - type: helper
 
 
 # Install
