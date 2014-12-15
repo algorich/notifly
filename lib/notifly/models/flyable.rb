@@ -101,6 +101,7 @@ module Notifly
         end
       rescue => e
         logger.error "Something goes wrong with Notifly, will ignore: #{e}"
+        raise e if not Rails.env.production?
       end
 
       def notifly_notifications(kind=nil)
