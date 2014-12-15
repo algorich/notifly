@@ -31,25 +31,25 @@ RSpec.describe Post, :type => :model do
           expect(notification.template).to eql 'destroy'
           expect(notification.reload.data).to eql post_attributes
         end
-      end
 
-      context 'when run notifly by order' do
-        context 'when post title starts with nil' do
-          it 'should send two notifications' do
-            expect { post.change_title }.to change(Notifly::Notification, :count).
-              from(0).to(2)
+        context 'when run notifly by order' do
+          context 'when post title starts with nil' do
+            it 'should send two notifications' do
+              expect { post.change_title }.to change(Notifly::Notification, :count).
+                from(0).to(2)
 
-            expect(Notifly::Notification.first.data['title']).to be_nil
-            expect(Notifly::Notification.last.data['title']).to eql 'NewTitle'
+              expect(Notifly::Notification.first.data['title_before_create']).to be_nil
+              expect(Notifly::Notification.last.data['title']).to eql 'NewTitle'
+            end
           end
-        end
 
-        context 'when post title starts with TitleFoo' do
-          it 'should send two notifications' do
-            expect_any_instance_of(Post).to receive(:change_title) { nil }
-            post = Post.create! dummy_object: dummy, title: 'TitleFoo'
+          context 'when post title starts with TitleFoo' do
+            it 'should send two notifications' do
+              expect_any_instance_of(Post).to receive(:change_title) { nil }
+              post = Post.create! dummy_object: dummy, title: 'TitleFoo'
 
-            expect { post.change_title }.to_not change(Notifly::Notification, :count)
+              expect { post.change_title }.to_not change(Notifly::Notification, :count)
+            end
           end
         end
       end

@@ -129,7 +129,11 @@ module Notifly
           elsif value == :self
             self
           else
-            send(value)
+            if value.is_a? Proc
+              instance_exec &value
+            else
+              send(value)
+            end
           end
         end
     end
