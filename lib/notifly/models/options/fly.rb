@@ -3,7 +3,7 @@ module Notifly
     module Options
       class Fly
         attr_accessor :before, :after, :template, :sender, :receiver, :target,
-          :if, :unless, :data, :mail, :kind
+          :if, :unless, :data, :mail, :kind, :then
 
         def initialize(options={})
           options = options.fetch(:default_values, options)
@@ -23,7 +23,7 @@ module Notifly
         end
 
         def attributes
-          no_attrs = [hook, :if, :unless, :mail]
+          no_attrs = [hook, :if, :unless, :mail, :then]
           attrs = instance_values.reject { |key| no_attrs.include? key.to_sym  }
           attrs.merge({mail: get_mail_type})
         end

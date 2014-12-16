@@ -91,17 +91,14 @@ module Notifly
 
       def _create_notification_for(fly)
         new_fly = _default_fly.merge(fly)
+
         notification = Notifly::Notification.create _get_attributes_from(new_fly)
+        _after_create_notification(notification, new_fly)
 
-        if new_fly.mail.present?
-          template = new_fly.mail.try(:fetch, :template) || notification.template
-
-          Notifly::NotificationMailer.notifly to: self.email, template: template,
-            notification_id: notification.id
-        end
       rescue => e
         logger.error "Something goes wrong with Notifly, will ignore: #{e}"
         raise e if not Rails.env.production?
+
       end
 
       def notifly_notifications(kind=nil)
@@ -135,6 +132,20 @@ module Notifly
             else
               send(value)
             end
+          end
+        end
+
+        def _after_create_notification(notification, fly)
+          if fly.then.present?
+            block = fly.then;
+            block.parameters.present? ? instance_exec(notification, &block) : instance_exec(&block)
+          end
+
+          if fly.mail.present?
+            template = fly.mail.try(:fetch, :template) || notification.template
+
+            Notifly::NotificationMailer.notifly to: self.email, template: template,
+              notification_id: notification.id
           end
         end
     end

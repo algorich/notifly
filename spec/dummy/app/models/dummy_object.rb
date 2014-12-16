@@ -18,6 +18,10 @@ class DummyObject < ActiveRecord::Base
   notifly after: :test_kind, kind: :message
   notifly after: :test_kind, kind: :feed
 
+  notifly after: :test_then, then: -> { self.update name: 'name_after_then' }
+  notifly after: :test_then_using_notification, kind: :blastoise,
+    then: ->(n) { self.update name: n.kind }
+
   def be_smart
     self.name = 'smart'
   end
@@ -33,5 +37,13 @@ class DummyObject < ActiveRecord::Base
   def test_kind
     # code
     true
+  end
+
+  def test_then
+    #code
+  end
+
+  def test_then_using_notification
+    #code
   end
 end

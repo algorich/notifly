@@ -16,7 +16,7 @@ In actual version, notifications are composed by:
   - Read: flag that records if the receiver read the notification
   - Seen: flag that records if the receiver seen the notification
   - If and Unless: used to create notifications conditionally
-  - type: helper
+  - Kind: an attribute to scope notifications
 
 
 # Install
@@ -65,13 +65,18 @@ class TicketOrder < ActiveRecord::Base
   notifly before: :destroy, template: :destroy, sender: :buyer, data: :attributes
   notifly after: :send_gift!, template: :ticket_gift, sender: :buyer,
     target: :ticket, if: -> { completed? }
-  notifly after: :accept_gift, sender: :owner, receiver: :buyer, target: :ticket
+  notifly after: :accept_gift, sender: -> { self.owner }, receiver: :buyer, target: :ticket,
+    then: ->(notification) { self.send_mail_with(notification) }
 
   def send_gift!
     # code here
   end
 
   def accept_gift
+    # code here
+  end
+
+  def send_mail_with(notification)
     # code here
   end
 end
@@ -86,6 +91,8 @@ Value explanation about each parameter:
 | `template`          | The symbol or string that indicates which partial will be rendered at views. The partial must be inside `app/views/notifly/templates/`. Default is `:default`. |
 | `target`            | The method which returns the notification target object. It's a third actor of the notification. Example: In "Max sent you a ticket" notification, Max is the sender, you are the receiver and the **ticket is the target**. |
 | `data`              | A method which returns a hash with usefull values to be persisted, like ticket price or whatever you want to persist. |
+| `kind`              | String used to scope notifications, default is `:notification` and all notifications with default type will be shown in `current_user`'s notifications
+| `then`              | Callback that will be executed **after** the notification creation. It can receive a notification as parameter. Right now it only works in the code above.
 
 Note that you can use the `default_values` parameter, it is specific to DRY your
 notiflies and set the values to all notiflies. If you need to overwrite some
