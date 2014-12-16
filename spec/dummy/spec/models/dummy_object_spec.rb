@@ -107,5 +107,26 @@ RSpec.describe DummyObject, :type => :model do
         end
       end
     end
+
+    context 'when using "then"' do
+      let!(:dummy) { DummyObject.create name: nil, email: 'dummy@mail.com' }
+      let(:notifications) { Notifly::Notification }
+
+      before(:each) { notifications.delete_all }
+
+      it 'should run the code' do
+        expect(dummy.name).to eql nil
+
+        expect { dummy.test_then }.to change { notifications.count }.by(1)
+        expect(dummy.reload.name).to eql 'name_after_then'
+      end
+
+      it 'should run the code using the created notification' do
+        expect(dummy.name).to eql nil
+
+        expect { dummy.test_then_using_notification }.to change { notifications.count }.by(1)
+        expect(dummy.reload.name).to eql 'blastoise'
+      end
+    end
   end
 end
