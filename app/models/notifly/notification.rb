@@ -14,11 +14,11 @@ module Notifly
     scope :newer,         ->(than: nil) do
       return ordered if than.blank?
 
-      reference = find(than)
+      reference = find_by(id: than)
       ordered.where('created_at > ?', reference.created_at).where.not(id: reference)
     end
     scope :older,         ->(than: nil) do
-      reference = find(than)
+      reference = find_by(id: than)
 
       ordered.
       where('created_at < ?', reference.created_at).
