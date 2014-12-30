@@ -52,7 +52,7 @@ module Notifly
           3.times { page_1 << simple_notification }
           page_1 << first_notification_from_page_1 = simple_notification
 
-          expect(Notifly::Notification.newer).to match_array page_1
+          expect(Notifly::Notification.newer.limited).to match_array page_1
         end
 
         it 'should return newer notifications than a specific notification' do
@@ -95,11 +95,11 @@ module Notifly
           3.times { page_1 << simple_notification }
         end
 
-        it { expect(Notifly::Notification.older than: @last_notification_from_page_1.id).
+        it { expect(Notifly::Notification.older(than: @last_notification_from_page_1.id).limited).
           to match_array page_2 }
-        it { expect(Notifly::Notification.older than: @last_notification_from_page_2.id).
+        it { expect(Notifly::Notification.older(than: @last_notification_from_page_2.id).limited).
           to match_array page_3 }
-        it { expect(Notifly::Notification.older than: @last_notification_from_page_3.id).
+        it { expect(Notifly::Notification.older(than: @last_notification_from_page_3.id).limited).
           to match_array [] }
       end
     end

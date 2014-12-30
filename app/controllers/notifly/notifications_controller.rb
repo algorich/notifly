@@ -32,7 +32,7 @@ module Notifly
 
     private
       def scoped_notifications
-        current_user_notifications.send(scope_param, than: params[:reference_notification_id])
+        current_user_notifications.send(scope_param, than: params[:reference_notification_id]).limited
       end
 
       def scope_param
