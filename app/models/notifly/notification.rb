@@ -4,7 +4,7 @@ module Notifly
     belongs_to :sender, polymorphic: true
     belongs_to :receiver, polymorphic: true
 
-    before_validation :convert_data, :set_defaults
+    before_validation :set_defaults
 
     scope :all_from,      -> (receiver) { where(receiver: receiver) }
     scope :unseen,        -> { where(seen: false) }
@@ -12,7 +12,7 @@ module Notifly
     scope :limited,       -> { limit(Notifly.per_page) }
     scope :ordered,       -> { order('created_at DESC') }
     scope :newer,         ->(than: nil) do
-      return ordered.limited if than.blank?
+      return ordered if than.blank?
 
       reference = find(than)
       ordered.where('created_at > ?', reference.created_at).where.not(id: reference)
@@ -22,8 +22,7 @@ module Notifly
 
       ordered.
       where('created_at < ?', reference.created_at).
-      where.not(id: reference).
-      limited
+      where.not(id: reference)
     end
     scope :between,       ->(first, last) do
       notifications = where(id: [first, last])
@@ -32,15 +31,9 @@ module Notifly
 
     validates :receiver, :template, :mail, :kind, presence: true
 
-    def data
-      YAML.load(read_attribute(:data))
-    end
+    serialize :data, JSON
 
     private
-      def convert_data
-        self.data = read_attribute(:data).to_json
-      end
-
       def set_defaults
         self.mail     ||= :never
         self.kind     ||= :notification
