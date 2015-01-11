@@ -205,7 +205,7 @@ class ApplicationController < ActionController::Base
     helper_method :current_user
   end
 end
-``
+```
 
 After that you need our assets, add them to your `application.js` and `application.css`.
 
