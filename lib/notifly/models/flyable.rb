@@ -143,8 +143,7 @@ module Notifly
 
           if fly.mail.present?
             template = fly.mail.try(:fetch, :template) || notification.template
-
-            Notifly::NotificationMailer.notifly to: self.email, template: template,
+            Notifly::NotificationMailer.notifly to: instance_eval(fly.receiver.to_s).email, template: template,
               notification_id: notification.id
           end
         end
