@@ -1,20 +1,38 @@
-<%
-  rendered_notifications = render partial: 'notifly/layouts/index',
-    locals: { notifications: @notifications }
+<% rendered_notifications = render partial: 'notifly/layouts/index',
+  locals: { notifications: @notifications } %>
+<% last_notification = @notifications.last.try(:id) %>
+<% first_notification = @notifications.first.try(:id) %>
 
-  notifications_pages = { pages: @notifications.current_page }
-  rendered_header_actions = link_to 'Mark as read', read_specific_notifications_path(notifications_pages),
-    remote: true, method: :put
+$('#notifly-notifications-content .notifly-loading').remove();
+$('#notifly-notifications-content .notifly-empty').remove();
 
-  rendered_footer = render partial: 'notifly/layouts/footer',
-    locals: { notifications: @notifications }
-%>
+<% if @notifications.any? %>
 
-$('#notifly-header-actions').html("<%= escape_javascript rendered_header_actions %>");
+  <% if @scope_param == 'older' %>
+    $('#notifly-notifications-content').append("<%= j rendered_notifications %>");
+    notiflyLastNotification = <%= last_notification %>;
 
-$('#notifly-notifications-content .loading').remove();
-$('#notifly-notifications-content').append("<%= escape_javascript rendered_notifications %>");
-$('#notifly-notifications-footer').html("<%= escape_javascript rendered_footer %>");
+  <% else %>
+    $('#notifly-notifications-content').prepend("<%= j rendered_notifications %>");
+    notiflyFirstNotification = <%= first_notification %>;
 
-$('#notifly-counter').html("<%= escape_javascript(render 'notifly/layouts/counter', counter: @counter)%>");
-$('#notifly-icon').html("<%= escape_javascript notifly_icon(@counter > 0) %>")
+    if (notiflyLastNotification == undefined)
+      notiflyLastNotification = <%= last_notification %>;
+
+  <% end %>
+
+<% else %>
+    if (notiflyLastNotification == undefined) {
+      $('#notifly-more-notifications-link').remove();
+      $('#notifly-notifications-content').append("<%= j(render 'notifly/layouts/empty')%>")
+    }
+
+<% end %>
+
+<% if @scope_param == 'older' and @user.notifly_notifications.older(than: last_notification).blank? %>
+  $('#notifly-more-notifications-link').remove();
+<% end %>
+
+$('#notifly-counter').replaceWith("<%= j(render 'notifly/layouts/counter', counter: @counter)%>");
+$('#notifly-icon').replaceWith("<%= j notifly_icon(@counter > 0) %>")
+Tinycon.setBubble(<%= @counter %>);

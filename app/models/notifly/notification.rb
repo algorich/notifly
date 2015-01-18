@@ -4,23 +4,39 @@ module Notifly
     belongs_to :sender, polymorphic: true
     belongs_to :receiver, polymorphic: true
 
-    before_validation :convert_data, :set_template
+    before_validation :set_defaults
 
-    scope :all_from,    ->(receiver) { where(receiver: receiver) }
-    scope :unseen_from, ->(receiver) { where(receiver: receiver, seen: false) }
+    scope :all_from,      -> (receiver) { where(receiver: receiver) }
+    scope :unseen,        -> { where(seen: false) }
+    scope :not_only_mail, -> { where.not(mail: 'only') }
+    scope :limited,       -> { limit(Notifly.per_page) }
+    scope :ordered,       -> { order('created_at DESC') }
+    scope :newer,         ->(than: nil) do
+      return ordered if than.blank?
 
-    validates :receiver, :template, presence: true
+      reference = find_by(id: than)
+      ordered.where('created_at > ?', reference.created_at).where.not(id: reference)
+    end
+    scope :older,         ->(than: nil) do
+      reference = find_by(id: than)
 
-    def data
-      YAML.load(read_attribute(:data))
+      ordered.
+      where('created_at < ?', reference.created_at).
+      where.not(id: reference)
+    end
+    scope :between,       ->(first, last) do
+      notifications = where(id: [first, last])
+      where(created_at: (notifications.first.created_at..notifications.last.created_at))
     end
 
-    private
-      def convert_data
-        self.data = read_attribute(:data).to_json
-      end
+    validates :receiver, :template, :mail, :kind, presence: true
 
-      def set_template
+    serialize :data, JSON
+
+    private
+      def set_defaults
+        self.mail     ||= :never
+        self.kind     ||= :notification
         self.template ||= :default
       end
   end

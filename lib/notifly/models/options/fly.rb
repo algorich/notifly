@@ -3,7 +3,7 @@ module Notifly
     module Options
       class Fly
         attr_accessor :before, :after, :template, :sender, :receiver, :target,
-          :if, :unless, :data
+          :if, :unless, :data, :mail, :kind, :then
 
         def initialize(options={})
           options = options.fetch(:default_values, options)
@@ -23,13 +23,25 @@ module Notifly
         end
 
         def attributes
-          instance_values.reject { |key| [hook, :if, :unless].include? key.to_sym  }
+          no_attrs = [hook, :if, :unless, :mail, :then]
+          attrs = instance_values.reject { |key| no_attrs.include? key.to_sym  }
+          attrs.merge({mail: get_mail_type})
         end
 
         def merge(fly)
           raise TypeError, "#{fly} is not a Fly" unless fly.is_a? self.class
 
-          Notifly::Models::Options::Fly.new attributes.merge(fly.attributes)
+          Notifly::Models::Options::Fly.new instance_values.merge(fly.instance_values)
+        end
+
+        def get_mail_type
+          if mail == true
+            :always
+          elsif mail.present? and mail[:only]
+            :only
+          else
+            :never
+          end
         end
       end
     end

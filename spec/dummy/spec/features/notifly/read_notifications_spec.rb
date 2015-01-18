@@ -3,9 +3,9 @@ require 'rails_helper'
 describe 'Read notification', :type => :feature, js: true do
   before do
     @receiver = DummyObject.create! name: 'User'
-    @n_1 = Notifly::Notification.create! receiver: @receiver, read: false
-    @n_2 = Notifly::Notification.create! receiver: @receiver, read: false
-    @n_3 = Notifly::Notification.create! receiver: @receiver, read: false
+    @n_1 = Notifly::Notification.create! receiver: @receiver, read: false, mail: :never
+    @n_2 = Notifly::Notification.create! receiver: @receiver, read: false, mail: :never
+    @n_3 = Notifly::Notification.create! receiver: @receiver, read: false, mail: :never
     Notifly.per_page = 2
   end
 
@@ -13,8 +13,8 @@ describe 'Read notification', :type => :feature, js: true do
     Notifly.per_page = 10
   end
 
-  let(:open_notifly) do
-    visit root_path
+  def open_notifly
+    wait_for_ajax { visit root_path }
     wait_for_ajax { find('#notifly-icon').click }
   end
 
@@ -34,7 +34,8 @@ describe 'Read notification', :type => :feature, js: true do
     end
 
     scenario 'unread a notification' do
-      notification = Notifly::Notification.create! receiver: @receiver, read: true
+      notification = Notifly::Notification.create! receiver: @receiver, read: true,
+        mail: :never
       notification_id = "#notifly-notification-#{notification.id}"
       open_notifly
       expect(page).to have_selector (notification_id)

@@ -1,8 +1,6 @@
-<!-- This partial requires the locals: receiver -->
+<div id="notifly" class="dropdown keep_open">
 
-<div id="notifly" class="dropdown">
-
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+  <a id="notifly-trigger" href="#" class="dropdown-toggle" data-toggle="dropdown">
     <span id="notifly-counter"></span>
     <span id="notifly-icon"><%= notifly_icon %></span>
   </a>
@@ -13,13 +11,16 @@
       Notifications
 
       <span id="notifly-header-actions" class="pull-right">
+        <%= link_to 'Mark as read', '#', id: 'notifly-mark-as-read-link' %>
       </span>
     </div>
 
     <div id="notifly-notifications-content">
-       <div class="loading">Loading notifications...</div>
+       <div class="notifly-loading">Loading notifications...</div>
     </div>
 
-    <div id="notifly-notifications-footer"></div>
+    <div id="notifly-notifications-footer">
+      <%= link_to 'More', '#', id: 'notifly-more-notifications-link' %>
+    </div>
   </div>
 </div>

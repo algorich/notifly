@@ -31,25 +31,25 @@ RSpec.describe Post, :type => :model do
           expect(notification.template).to eql 'destroy'
           expect(notification.reload.data).to eql post_attributes
         end
-      end
 
-      context 'when run notifly by order' do
-        context 'when post title starts with nil' do
-          it 'should send two notifications' do
-            expect { post.change_title }.to change(Notifly::Notification, :count).
-              from(0).to(2)
+        context 'when run notifly by order' do
+          context 'when post title starts with nil' do
+            it 'should send two notifications' do
+              expect { post.change_title }.to change(Notifly::Notification, :count).
+                from(0).to(2)
 
-            expect(Notifly::Notification.first.data['title']).to be_nil
-            expect(Notifly::Notification.last.data['title']).to eql 'NewTitle'
+              expect(Notifly::Notification.first.data['title_before_create']).to be_nil
+              expect(Notifly::Notification.last.data['title']).to eql 'NewTitle'
+            end
           end
-        end
 
-        context 'when post title starts with TitleFoo' do
-          it 'should send two notifications' do
-            expect_any_instance_of(Post).to receive(:change_title) { nil }
-            post = Post.create! dummy_object: dummy, title: 'TitleFoo'
+          context 'when post title starts with TitleFoo' do
+            it 'should send two notifications' do
+              expect_any_instance_of(Post).to receive(:change_title) { nil }
+              post = Post.create! dummy_object: dummy, title: 'TitleFoo'
 
-            expect { post.change_title }.to_not change(Notifly::Notification, :count)
+              expect { post.change_title }.to_not change(Notifly::Notification, :count)
+            end
           end
         end
       end
@@ -58,9 +58,9 @@ RSpec.describe Post, :type => :model do
     describe '#notifly_notifications' do
       it 'should show its notifications' do
         dummy_notification = Notifly::Notification.create! receiver: dummy,
-          sender: post
+          sender: post, mail: :never
         post_notifications = (1..3).map do
-          Notifly::Notification.create! receiver: post, sender: dummy
+          Notifly::Notification.create! receiver: post, sender: dummy, mail: :never
         end
 
         expect(post.notifly_notifications).to     include(*post_notifications)
@@ -70,11 +70,11 @@ RSpec.describe Post, :type => :model do
       it 'should query its notifications' do
         dummy_2 = DummyObject.create
         notification_1 = Notifly::Notification.create! receiver: post,
-          sender: dummy, template: 'destroy'
+          sender: dummy, template: 'destroy', mail: :never
         notification_2 = Notifly::Notification.create! receiver: post,
-          sender: dummy, target: dummy_2
+          sender: dummy, target: dummy_2, mail: :never
         notification_3 = Notifly::Notification.create! receiver: post,
-          sender: dummy, target: dummy_2
+          sender: dummy, target: dummy_2, mail: :never
 
         destroy_notifications = post.notifly_notifications.where(template: 'destroy')
         dummy_2_notifications = post.notifly_notifications.where(target: dummy_2)

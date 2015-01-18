@@ -1,0 +1,13 @@
+language: ruby
+
+before_script:
+  - cp spec/dummy/config/database.travis.yml spec/dummy/config/database.yml
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - bundle install
+  - bundle exec rake db:migrate
+
+rvm:
+  - 2.0.0
+  - 2.1
+
+script: bundle exec rspec spec

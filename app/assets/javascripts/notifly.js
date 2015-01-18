@@ -1,5 +1,15 @@
 //= require 'jquery'
 //= require 'jquery_ujs'
-//= require 'notifly/counter'
+//= require 'tinycon'
 //= require 'notifly/get_notifications'
-//= require 'twitter/bootstrap'
+//= require 'notifly/seen_notifications'
+//= require 'notifly/read_notifications'
+//= require 'notifly/more_notifications'
+
+$(document).ready(function() {
+  $(document).on('click', '#notifly-notifications-panel.dropdown-menu', function (e) {
+    $('#notifly').hasClass('keep_open') && e.stopPropagation();
+  });
+
+  Tinycon.setBubble(0);
+});

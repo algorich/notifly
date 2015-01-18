@@ -15,7 +15,12 @@ module Notifly
       end
 
       def copy_config
-        template "config/initializers/notifly.rb"
+        template 'config/initializers/notifly.rb'
+        copy_file '../../../../../config/locales/en.yml', 'config/locales/notifly.en.yml'
+      end
+
+      def remember_to_install_migrations
+        display 'Remember to install migrations: "rake notifly:install:migrations"', :red
       end
     end
   end

@@ -91,11 +91,19 @@ module Notifly
 
       def _create_notification_for(fly)
         new_fly = _default_fly.merge(fly)
-        Notifly::Notification.create! _get_attributes_from(new_fly)
+
+        notification = Notifly::Notification.create _get_attributes_from(new_fly)
+        _after_create_notification(notification, new_fly)
+
+      rescue => e
+        logger.error "Something goes wrong with Notifly, will ignore: #{e}"
+        raise e if not Rails.env.production?
+
       end
 
-      def notifly_notifications(options={})
-        Notifly::Notification.where(receiver: self)
+      def notifly_notifications(kind=nil)
+        notifications = Notifly::Notification.all_from(self)
+        kind.present? ? notifications.where(kind: kind) : notifications
       end
 
       private
@@ -114,12 +122,29 @@ module Notifly
         end
 
         def _eval_for(key, value)
-          if key.to_sym == :template
+          if [:template, :mail, :kind].include? key.to_sym
             value
           elsif value == :self
             self
           else
-            send(value)
+            if value.is_a? Proc
+              instance_exec &value
+            else
+              send(value)
+            end
+          end
+        end
+
+        def _after_create_notification(notification, fly)
+          if fly.then.present?
+            block = fly.then;
+            block.parameters.present? ? instance_exec(notification, &block) : instance_exec(&block)
+          end
+
+          if fly.mail.present?
+            template = fly.mail.try(:fetch, :template) || notification.template
+            Notifly::NotificationMailer.notifly to: instance_eval(fly.receiver.to_s).email, template: template,
+              notification_id: notification.id
           end
         end
     end
