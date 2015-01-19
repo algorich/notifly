@@ -11,16 +11,16 @@
       Notifications
 
       <span id="notifly-header-actions" class="pull-right">
-        <%= link_to 'Mark as read', '#', id: 'notifly-mark-as-read-link' %>
+        <%= link_to t('notifly.view.mark_as_read'), '#', id: 'notifly-mark-as-read-link' %>
       </span>
     </div>
 
     <div id="notifly-notifications-content">
-       <div class="notifly-loading">Loading notifications...</div>
+       <div class="notifly-loading"><%= t('notifly.view.loading') %></div>
     </div>
 
     <div id="notifly-notifications-footer">
-      <%= link_to 'More', '#', id: 'notifly-more-notifications-link' %>
+      <%= link_to t('notifly.view.more'), '#', id: 'notifly-more-notifications-link' %>
     </div>
   </div>
 </div>

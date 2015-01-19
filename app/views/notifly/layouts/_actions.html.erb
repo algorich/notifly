@@ -1,4 +1,4 @@
 <!-- This partial requires the locals: notification -->
 
-<% link_text = notification.read ? 'unread' : 'read' %>
+<% link_text = notification.read ? t('notifly.view.unread') : t('notifly.view.read') %>
 <%= link_to link_text, notification_toggle_read_path(notification), method: :put, remote: true %>
