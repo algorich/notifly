@@ -256,8 +256,8 @@ at [Adapting your layout](#adapting).
 
 ### I18n
 
-Notifly uses I18n to render the mail's subject and if you run the install generator
-you can change it in `config/locales/notifly.en.yaml` or create your own.
+Notifly uses I18n to render mail's subject and views, if you run the install generator
+you can change it in `config/locales/notifly.en.yml` or create your own.
 
 ### <a name='adapting'></a> Adapting your layout
 

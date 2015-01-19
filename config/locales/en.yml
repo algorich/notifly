@@ -2,3 +2,11 @@ en:
   notifly:
     mail_subject:
       default: 'You have a new notification'
+    view:
+      header: 'Notifications'
+      mark_as_read: 'Mark as read'
+      loading: 'Loading notifications...'
+      more: 'More'
+      read: 'read'
+      unread: 'unread'
+      no_notifications: 'You have no notifications'
