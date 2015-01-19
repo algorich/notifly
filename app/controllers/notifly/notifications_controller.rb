@@ -50,7 +50,7 @@ module Notifly
 
       def notifications_between
         current_user_notifications.between(params[:first_notification_id],
-          params[:last_notification_id])
+          params[:last_notification_id]).ordered
       end
   end
 end
