@@ -249,7 +249,8 @@ Notifications and Mails are rendered with their templates. They use a simple def
 template but if you want to change or create new ones run the generate above
 with the option that you want or create them in `app/views/notifly/templates/`.
 Remember that notifications templates should be in `notifications` folder and
-mails templates in `mails` folder.
+mails templates in `mails` folder and with **both** you need to use the `main_app`
+to render links.
 
 If you already have a layout and just want add our features to it, take a look
 at [Adapting your layout](#adapting).
