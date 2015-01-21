@@ -5,11 +5,7 @@ $(function () {
   var $notifly = $('#notifly');
 
   if ($notifly !== undefined) {
-    window.notificationChannel = dispatcher.subscribe('notifly_notifications');
-    notificationChannel.bind($notifly.data('user-id'), function(data) {
-      _injectNotificationFrom(data);
-    });
-
+    dispatcher.bind('notifly.notifications.new', _injectNotificationFrom);
   }
 });
 
@@ -25,6 +21,6 @@ var _injectNotificationFrom = function (data) {
     }
 
     return $('#notifly').find('#notifly-notifications-content')
-      .prepend(data.message);
+      .prepend(data.message)
   }
 };

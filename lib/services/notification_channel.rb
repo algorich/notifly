@@ -2,12 +2,13 @@ module Notifly
   class NotificationChannel
     def initialize(user_id)
       @user_id = user_id
-      @channel = WebsocketRails['notifly_notifications']
+      @channel = WebsocketRails.users[@user_id.to_s]
       @action_view = ActionViewHelper.new
     end
 
     def trigger(notification)
-      @channel.trigger @user_id.to_s, { message: render(notification), id: notification.id }
+      @channel.send_message 'notifly.notifications.new',
+        { message: render(notification), id: notification.id }
     end
 
     def render(notification)
