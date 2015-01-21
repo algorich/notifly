@@ -13,4 +13,7 @@ Notifly.setup do |config|
 
   # Define your mailer sender
   config.mailer_sender = 'change-me-at-config-initializers-notifly@exemple.com'
+
+  # Active websocket
+  config.websocket = false
 end

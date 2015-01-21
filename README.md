@@ -187,6 +187,10 @@ You can access the notifications using the following methods:
   - unseen: used on `Notifly::Notifications` and `#notifly_notifications` to show **only** unseen notifications
   - not_only-mail: used on `Notifly::Notifications` and `#notifly_notifications` to remove notification that are **mail only**
 
+### Websocket
+
+If you want to use websocket just install the gem [websocket-rails](https://github.com/websocket-rails/websocket-rails/wiki/Installation-and-Setup) and change the notifly's configuration
+at `config/initializers/notifly.rb`
 
 ## Front-end
 
