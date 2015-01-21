@@ -24,7 +24,6 @@ var _notiflyGetNotifications = function () {
 
 var _notiflyRepeatRequest = function () {
   <% if not Notifly.websocket %>
-  console.log('oê');
     setTimeout(_notiflyGetNotifications, <%= Notifly.timeout %>);
   <% end %>
 };
