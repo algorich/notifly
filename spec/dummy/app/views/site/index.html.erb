@@ -1,2 +1,3 @@
 <h1>Site#index</h1>
 <p>User logged in: <%= current_user.name %></p>
+<p><%= link_to 'create notification', create_notification_path, remote: true, method: :post %></p>
