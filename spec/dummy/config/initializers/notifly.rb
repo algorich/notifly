@@ -1,3 +1,3 @@
 Notifly.setup do |config|
-  config.websocket = false
+  config.websocket = true
 end

@@ -1,5 +1,10 @@
 <% notifly = Notifly::Engine.routes.url_helpers %>
 
+$(document).ready(function() {
+  _notiflyReadNotifications();
+  _notiflyReadNotificationWithLink();
+});
+
 var _notiflyReadNotifications = function () {
   var $notifly = $('#notifly-mark-as-read-link');
 
@@ -17,6 +22,19 @@ var _notiflyReadNotifications = function () {
   }
 };
 
-$(document).ready(function() {
-  _notiflyReadNotifications();
-});
+var _notiflyReadNotificationWithLink = function () {
+  if ($('#notifly').length > 0) {
+    $('#notifly').on('click', '.notifly-notification-message a', function () {
+      var notificationId =  $(this).closest('div.notifly-notification').data('id');
+
+      $.ajax({
+        url: '<%= notifly.notification_toggle_read_path %>',
+        data: {
+          notification_id: notificationId,
+          read: true
+        },
+        type: 'PUT'
+      });
+    });
+  }
+};
