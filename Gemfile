@@ -3,12 +3,15 @@ source 'https://rubygems.org'
 gem 'rails', '~> 4'
 gem 'jquery-rails', ['>= 3.0', '< 5']
 gem 'font-awesome-rails', '~> 4.2.0'
+gem 'coffee-rails', '~> 4.0.0'
 
 group :development, :test do
   gem 'pg'
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'awesome_print'
+  gem 'websocket-rails', '~> 0.7.0'
+  gem 'thin'
 end
 
 group :test do

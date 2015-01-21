@@ -10,6 +10,7 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require websocket_rails/main
 //= require notifly
 //= require notifly_dropdown
 //= require_tree .
