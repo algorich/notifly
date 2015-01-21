@@ -9,5 +9,7 @@ before_script:
 rvm:
   - 2.0.0
   - 2.1
+env:
+  - WEBSOCKET=true WEBSOCKET=false
 
 script: bundle exec rspec spec
