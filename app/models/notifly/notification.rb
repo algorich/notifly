@@ -5,6 +5,7 @@ module Notifly
     belongs_to :receiver, polymorphic: true
 
     before_validation :set_defaults
+    after_create :send_to_receiver, if: -> { Notifly.websocket }
 
     scope :all_from,      -> (receiver) { where(receiver: receiver) }
     scope :unseen,        -> { where(seen: false) }
@@ -38,6 +39,10 @@ module Notifly
         self.mail     ||= :never
         self.kind     ||= :notification
         self.template ||= :default
+      end
+
+      def send_to_receiver
+        Notifly::NotificationChannel.new(self.receiver_id).trigger(self)
       end
   end
 end
