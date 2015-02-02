@@ -35,10 +35,12 @@ RSpec.describe Post, :type => :model do
         context 'when run notifly by order' do
           context 'when post title starts with nil' do
             it 'should send two notifications' do
-              expect { post.change_title }.to change(Notifly::Notification, :count).
-                from(0).to(2)
+              post_1 = Post.create dummy_object: dummy, published: true, title: 'TitleBar'
 
-              expect(Notifly::Notification.first.data['title_before_create']).to be_nil
+              expect { post_1.change_title }.to change(Notifly::Notification, :count).
+                by(2)
+
+              expect(Notifly::Notification.first.data['title_before_create']).to eql 'TitleBar'
               expect(Notifly::Notification.last.data['title']).to eql 'NewTitle'
             end
           end

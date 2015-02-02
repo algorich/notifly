@@ -1,0 +1,26 @@
+window.dispatcher = new WebSocketRails(location.host + '/websocket');
+var notiflyFirstNotification;
+
+$(function () {
+  var $notifly = $('#notifly');
+
+  if ($notifly !== undefined) {
+    dispatcher.bind('notifly.notifications.new', _injectNotificationFrom);
+  }
+});
+
+var _injectNotificationFrom = function (data) {
+  if (data.message) {
+    $('#notifly-notifications-content .notifly-empty').remove();
+    notiflyFirstNotification = data.id;
+
+    if (!$('#notifly').hasClass('open')) {
+      $counter = $('#notifly-counter');
+      $counter.html(eval($counter.html()) + 1);
+      $counter.removeClass('hide');
+    }
+
+    return $('#notifly').find('#notifly-notifications-content')
+      .prepend(data.message)
+  }
+};

@@ -187,6 +187,10 @@ You can access the notifications using the following methods:
   - unseen: used on `Notifly::Notifications` and `#notifly_notifications` to show **only** unseen notifications
   - not_only-mail: used on `Notifly::Notifications` and `#notifly_notifications` to remove notification that are **mail only**
 
+### Websocket
+
+If you want to use websocket just install the gem [websocket-rails](https://github.com/websocket-rails/websocket-rails/wiki/Installation-and-Setup) and change the notifly's configuration
+at `config/initializers/notifly.rb`
 
 ## Front-end
 
@@ -249,7 +253,8 @@ Notifications and Mails are rendered with their templates. They use a simple def
 template but if you want to change or create new ones run the generate above
 with the option that you want or create them in `app/views/notifly/templates/`.
 Remember that notifications templates should be in `notifications` folder and
-mails templates in `mails` folder.
+mails templates in `mails` folder and with **both** you need to use the `main_app`
+to render links.
 
 If you already have a layout and just want add our features to it, take a look
 at [Adapting your layout](#adapting).

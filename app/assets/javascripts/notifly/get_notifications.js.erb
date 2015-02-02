@@ -1,6 +1,10 @@
 <% notifly = Notifly::Engine.routes.url_helpers %>
 var notiflyLastNotification, notiflyFirstNotification;
 
+$(document).ready(function() {
+  _notiflyGetNotifications();
+});
+
 var _notiflyGetNotifications = function () {
   var $notifly = $('#notifly');
 
@@ -19,9 +23,7 @@ var _notiflyGetNotifications = function () {
 };
 
 var _notiflyRepeatRequest = function () {
-  setTimeout(_notiflyGetNotifications, <%= Notifly.timeout %>);
+  <% if not Notifly.websocket %>
+    setTimeout(_notiflyGetNotifications, <%= Notifly.timeout %>);
+  <% end %>
 };
-
-$(document).ready(function() {
-  _notiflyGetNotifications();
-});

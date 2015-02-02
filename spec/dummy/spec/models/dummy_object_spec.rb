@@ -21,9 +21,9 @@ RSpec.describe DummyObject, :type => :model do
       describe 'class methods' do
         describe '.create' do
           it { expect { DummyObject.create name: 'dummy' }.
-            to_not change(notifications.where(template: :create), :count) }
+            to_not change(Notifly::Notification.where(template: :create), :count) }
           it { expect { DummyObject.create name: 'smart' }.
-            to change(notifications.where(template: :create), :count).from(0).to(1) }
+            to change(Notifly::Notification.where(template: :create), :count).from(0).to(1) }
         end
       end
 

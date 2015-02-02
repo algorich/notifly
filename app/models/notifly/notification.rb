@@ -5,23 +5,24 @@ module Notifly
     belongs_to :receiver, polymorphic: true
 
     before_validation :set_defaults
+    after_create :send_to_receiver, if: -> { Notifly.websocket }
 
     scope :all_from,      -> (receiver) { where(receiver: receiver) }
     scope :unseen,        -> { where(seen: false) }
     scope :not_only_mail, -> { where.not(mail: 'only') }
     scope :limited,       -> { limit(Notifly.per_page) }
-    scope :ordered,       -> { order('created_at DESC') }
+    scope :ordered,       -> { order('notifly_notifications.created_at DESC') }
     scope :newer,         ->(than: nil) do
       return ordered if than.blank?
 
       reference = find_by(id: than)
-      ordered.where('created_at > ?', reference.created_at).where.not(id: reference)
+      ordered.where('notifly_notifications.created_at > ?', reference.created_at).where.not(id: reference)
     end
     scope :older,         ->(than: nil) do
       reference = find_by(id: than)
 
       ordered.
-      where('created_at < ?', reference.created_at).
+      where('notifly_notifications.created_at < ?', reference.created_at).
       where.not(id: reference)
     end
     scope :between,       ->(first, last) do
@@ -38,6 +39,10 @@ module Notifly
         self.mail     ||= :never
         self.kind     ||= :notification
         self.template ||= :default
+      end
+
+      def send_to_receiver
+        Notifly::NotificationChannel.new(self.receiver_id).trigger(self)
       end
   end
 end
