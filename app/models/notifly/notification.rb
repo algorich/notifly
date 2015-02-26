@@ -42,7 +42,7 @@ module Notifly
       end
 
       def send_to_receiver
-        Notifly::NotificationChannel.new(self.receiver_id).trigger(self)
+        Notifly::NotificationChannel.new(self.receiver_id).trigger(self) if self.kind == 'notification'
       end
   end
 end

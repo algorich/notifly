@@ -13,4 +13,3 @@
 //= require websocket_rails/main
 //= require notifly
 //= require notifly_dropdown
-//= require_tree .

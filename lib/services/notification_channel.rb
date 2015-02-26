@@ -3,7 +3,7 @@ module Notifly
     def initialize(user_id)
       @user_id = user_id
       @channel = WebsocketRails.users[@user_id.to_s]
-      @action_view = ActionViewHelper.new
+      @action_view = Notifly::ActionViewHelper.new
     end
 
     def trigger(notification)
