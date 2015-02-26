@@ -5,7 +5,11 @@ module Notifly
 
     def initialize
       notifly_path = File.expand_path(File.dirname(File.dirname(__FILE__))) + '../../app/views/notifly'
+      rails_path = File.join(Rails.root, 'app/views/notifly')
+
       ActionController::Base.prepend_view_path(notifly_path)
+      ActionController::Base.prepend_view_path(rails_path)
+
       @action_view = ActionView::Base.new(ActionController::Base.view_paths)
       @action_view.extend ApplicationHelper
 
