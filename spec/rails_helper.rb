@@ -6,7 +6,6 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'capybara/rails'
 require 'capybara/rspec'
-require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
 
 Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each { |f| require f }
