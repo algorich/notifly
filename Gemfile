@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 gem 'rails',              '4.1.8'
 gem 'jquery-rails',       ['>= 3.0', '< 5']
-gem 'font-awesome-rails', '4.2.0'
-gem 'coffee-rails',       '4.0.1'
+gem 'font-awesome-rails', '4.5.0'
+gem 'coffee-rails',       '4.1.1'
 
 group :development, :test do
   gem 'pg',              '0.18.2'
